@@ -1,0 +1,15 @@
+{
+  "name": "job-search-assistant",
+  "owner": { "name": "Alex Newton" },
+  "metadata": {
+    "description": "A modular Claude job-search assistant: setup, self-discovery, LinkedIn, resume, networking, interviews, negotiation, and a daily/weekly rhythm."
+  },
+  "plugins": [
+    {
+      "name": "job-search-assistant",
+      "source": "./plugin",
+      "description": "8 job-search skills grounded in The 2-Hour Job Search, Never Search Alone, Reverse the Search, Linked, The Job Closer and Career Coach GPT.",
+      "version": "1.0.0"
+    }
+  ]
+}

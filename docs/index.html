@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Job Search Assistant for Claude</title>
+<meta name="description" content="A modular Claude job-search assistant. Pick modules, answer a short setup quiz, download your profile.">
+<style>
+:root{
+  --bg:#f8fafc;--surface:#ffffff;--surface-2:#f1f5f9;--border:#e2e8f0;
+  --text:#0f172a;--muted:#475569;--faint:#64748b;
+  --accent:#c2410c;--accent-soft:#fff1e8;--on-accent:#ffffff;
+  --radius:12px;--font:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0b1120;--surface:#111827;--surface-2:#1e293b;--border:#334155;
+  --text:#e2e8f0;--muted:#94a3b8;--faint:#94a3b8;
+  --accent:#fb8b3c;--accent-soft:#2a1a10;--on-accent:#0b1120;}}
+:root[data-theme="dark"]{
+  --bg:#0b1120;--surface:#111827;--surface-2:#1e293b;--border:#334155;
+  --text:#e2e8f0;--muted:#94a3b8;--faint:#94a3b8;
+  --accent:#fb8b3c;--accent-soft:#2a1a10;--on-accent:#0b1120;}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 var(--font)}
+a{color:var(--accent)}
+.wrap{max-width:960px;margin:0 auto;padding:0 16px}
+header{padding:56px 0 24px}
+.eyebrow{color:var(--accent);font-weight:600;font-size:.85rem;letter-spacing:.06em;text-transform:uppercase}
+h1{font-size:clamp(1.9rem,5vw,2.8rem);line-height:1.15;margin:.3em 0 .4em;text-wrap:balance}
+h2{font-size:1.45rem;margin:0 0 .4em}
+h3{font-size:1.05rem;margin:0 0 .3em}
+.lede{color:var(--muted);font-size:1.1rem;max-width:62ch}
+section{padding:32px 0;border-top:1px solid var(--border)}
+.btn{display:inline-flex;align-items:center;gap:.4em;padding:.6em 1.05em;border-radius:999px;border:1px solid var(--border);background:var(--surface);color:var(--text);font:inherit;font-weight:600;text-decoration:none;cursor:pointer}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn:focus-visible,.opt:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.row{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:16px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;display:flex;flex-direction:column;gap:8px}
+.card p{margin:0;color:var(--muted);font-size:.95rem}
+.card .try{font-family:var(--mono);font-size:.82rem;background:var(--surface-2);padding:6px 8px;border-radius:8px;color:var(--text)}
+.card .btn{align-self:flex-start;margin-top:auto;font-size:.9rem}
+.steps{counter-reset:s;list-style:none;padding:0;margin:16px 0 0;display:grid;gap:12px}
+.steps li{counter-increment:s;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px 14px 56px;position:relative}
+.steps li::before{content:counter(s);position:absolute;left:16px;top:14px;width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-weight:700;display:grid;place-items:center}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0}
+.tab{padding:.4em .9em;border-radius:999px;border:1px solid var(--border);background:var(--surface);cursor:pointer;font:inherit;color:var(--text)}
+.tab[aria-selected="true"]{background:var(--text);color:var(--bg);border-color:var(--text)}
+.panel[hidden]{display:none}
+/* wizard */
+.wizard{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-top:16px}
+.progress{height:6px;background:var(--surface-2);border-radius:99px;overflow:hidden;margin-bottom:16px}
+.progress>div{height:100%;background:var(--accent);width:0;transition:width .25s}
+.q-title{font-size:1.15rem;font-weight:650;margin:0 0 4px}
+.q-help{color:var(--muted);margin:0 0 14px;font-size:.95rem}
+.opts{display:grid;gap:8px}
+.opt{text-align:left;padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:var(--surface);color:var(--text);font:inherit;cursor:pointer}
+.opt:hover{border-color:var(--accent)}
+.opt[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.opt small{display:block;color:var(--muted)}
+.field{display:grid;gap:4px;margin:10px 0}
+.field label{font-weight:600;font-size:.92rem}
+input[type=text],textarea{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text);font:inherit}
+textarea{min-height:90px;resize:vertical}
+.nav{display:flex;justify-content:space-between;gap:10px;margin-top:18px;flex-wrap:wrap}
+pre.out{white-space:pre-wrap;word-break:break-word;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:14px;font:13px/1.5 var(--mono);max-height:420px;overflow:auto}
+.pill{display:inline-block;padding:2px 10px;border-radius:99px;background:var(--accent-soft);color:var(--accent);font-weight:600;font-size:.85rem}
+table{width:100%;border-collapse:collapse;font-size:.92rem}
+th,td{text-align:left;padding:8px;border-bottom:1px solid var(--border);vertical-align:top}
+th{color:var(--muted);font-weight:600}
+.tablewrap{overflow-x:auto}
+details{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;margin-top:10px}
+summary{cursor:pointer;font-weight:600}
+footer{padding:32px 0 56px;color:var(--faint);font-size:.9rem;border-top:1px solid var(--border)}
+.themebtn{position:absolute;top:16px;right:16px}
+</style>
+</head>
+<body>
+<button class="btn themebtn" id="themeBtn" aria-label="Toggle colour theme">◐</button>
+<div class="wrap">
+<header>
+  <div class="eyebrow">Claude skills · free · open source</div>
+  <h1>A job-search assistant that runs in your own Claude.</h1>
+  <p class="lede">Eight small skills that cover the whole search, from figuring out what to target to negotiating the offer. Each one is built on proven playbooks (<em>The 2-Hour Job Search</em>, <em>Never Search Alone</em>, <em>Reverse the Search</em>, <em>Linked</em>, <em>The Job Closer</em>), wired to whatever tools you already use, and tuned to the kind of coach you want.</p>
+  <div class="row">
+    <a class="btn primary" href="#wizard">Start the 3-minute setup</a>
+    <a class="btn" href="#modules">Browse modules</a>
+    <a class="btn" href="https://github.com/anewt225/job-search-assistant">View on GitHub</a>
+  </div>
+</header>
+
+<section id="how">
+  <h2>How it works</h2>
+  <ol class="steps">
+    <li><strong>Pick modules.</strong> Download one zip, or all of them. Each one works on its own.</li>
+    <li><strong>Install.</strong> In Claude, go to Settings → Capabilities → Skills → Upload skill (or use the Claude Code plugin).</li>
+    <li><strong>Set up.</strong> Run the wizard below, or just tell Claude "set up my job search". Either way you get a <code>job-search-profile.md</code> that every module reads.</li>
+    <li><strong>Use it.</strong> "Draft outreach to…", "Prep me for my interview with…", "Score my LinkedIn for…"</li>
+  </ol>
+</section>
+
+<section id="modules">
+  <h2>Modules</h2>
+  <p class="lede" style="font-size:1rem">Not sure where to start? Install <strong>Setup</strong> plus the one module for where you are right now.</p>
+  <div class="grid" id="moduleGrid"></div>
+  <div class="row"><a class="btn primary" href="https://github.com/anewt225/job-search-assistant/releases/latest/download/job-search-assistant-all.zip">Download all 8 (one zip)</a></div>
+</section>
+
+<section id="install">
+  <h2>Install</h2>
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" aria-selected="true" data-tab="app">Claude app / claude.ai</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="code">Claude Code</button>
+  </div>
+  <div class="panel" data-panel="app">
+    <ol>
+      <li>Settings → <strong>Capabilities</strong> → turn on <em>Code execution and file creation</em>.</li>
+      <li>Settings → Capabilities → <strong>Skills</strong> → <em>Upload skill</em> → choose a module's <code>.zip</code>. Don't unzip it first.</li>
+      <li>Create a <strong>Project</strong> called "Job Search" and add your <code>job-search-profile.md</code> to its knowledge.</li>
+      <li>Optional: Settings → <strong>Connectors</strong> → connect Gmail/Outlook, Calendar, Drive, Notion and so on.</li>
+    </ol>
+  </div>
+  <div class="panel" data-panel="code" hidden>
+    <pre class="out">/plugin marketplace add anewt225/job-search-assistant
+/plugin install job-search-assistant@job-search-assistant</pre>
+    <p>Or unzip any module into <code>~/.claude/skills/</code>. Save your profile to <code>~/.claude/job-search/job-search-profile.md</code>.</p>
+  </div>
+</section>
+
+<section id="wizard">
+  <h2>Setup wizard</h2>
+  <p class="lede" style="font-size:1rem">Answer each question with <span class="pill">Quick</span> (copy a proven setup), your own tool, or <em>Skip</em>. Nothing leaves your browser. At the end, download your profile and upload it to your Claude Project. Prefer to talk it through? Skip this and tell Claude "set up my job search".</p>
+  <div class="wizard" id="wiz" aria-live="polite">
+    <div class="progress"><div id="bar"></div></div>
+    <div id="stage"></div>
+    <div class="nav">
+      <button class="btn" id="back">← Back</button>
+      <button class="btn primary" id="next">Next →</button>
+    </div>
+  </div>
+</section>
+
+<section id="notion">
+  <h2>Tracker templates</h2>
+  <p>Five tables, 12 fields or fewer each: <strong>Companies · Contacts · Opportunities · Meetings · Tasks</strong>. Sample data shows how they connect.</p>
+  <div class="row">
+    <a class="btn primary" id="notionLink" href="https://github.com/anewt225/job-search-assistant#tracker">Duplicate the Notion template</a>
+    <a class="btn" href="https://github.com/anewt225/job-search-assistant/tree/main/templates/tracker-csv">CSV (Sheets, Excel, Airtable)</a>
+  </div>
+</section>
+
+<section id="faq">
+  <h2>FAQ</h2>
+  <details><summary>What does it cost?</summary><p>The skills are free. They run on your Claude plan (Pro or higher for Skills). Connectors and big imports use more of your usage. The Notion template is the cheapest way to set up.</p></details>
+  <details><summary>Will it send emails for me?</summary><p>No. It only drafts. It never sends messages and never guesses email addresses.</p></details>
+  <details><summary>Do I need any connectors?</summary><p>No. Every module falls back to paste or upload. Connectors just save you copy-pasting.</p></details>
+  <details><summary>Where is my data?</summary><p>Only in your own Claude account and your own tools. This page stores nothing on a server; your answers stay in your browser.</p></details>
+</section>
+
+<footer>Made by <a href="https://github.com/anewt225">Alex Newton</a>. Frameworks credit their authors; buy the books. MIT licensed. Not affiliated with Anthropic.</footer>
+</div>
+
+<script>
+const REL = "https://github.com/anewt225/job-search-assistant/releases/latest/download/";
+const MODULES = [
+  ["job-search-setup","Setup & hub","Onboarding, persona, tracker import, and \"where do I start?\"","Set up my job search"],
+  ["job-search-discovery","Self-discovery","A playful quiz leading to strengths, must-haves, target roles, a two-pager and a CMF statement.","Help me figure out what roles fit me"],
+  ["job-search-linkedin","LinkedIn","A 100-point score, a 7-advisor panel, rewrites in your voice and an exportable to-do list.","Score my LinkedIn for Product Ops Manager"],
+  ["job-search-resume","Resume & cover letter","Score against a JD, then tailor with GLORY and see before/after deltas.","Tailor my resume for <posting URL>"],
+  ["job-search-networking","Networking & events","6-Point cold emails, warm reconnects, referral asks, follow-ups and event briefs.","Draft outreach to Priya at Lumen, no connection"],
+  ["job-search-interview","Interviews","Prep briefs, a 25-minute voice mock interview, and debriefs with thank-yous and tasks.","Prep me for my interview with Northwind"],
+  ["job-search-negotiation","Negotiation","Comp research, offer comparison, counter scripts and a recruiter role-play.","I got an offer. Help me negotiate"],
+  ["job-search-rhythm","Daily & weekly rhythm","A 2-minute stand-up, plus a weekly retro followed by week-ahead time blocks.","Run my weekly review"],
+];
+document.getElementById("moduleGrid").innerHTML = MODULES.map(([id,t,d,tr]) =>
+  `<div class="card"><h3>${t}</h3><p>${d}</p><div class="try">“${tr.replace(/</g,"&lt;")}”</div><a class="btn" href="${REL}${id}.zip">Download .zip</a></div>`).join("");
+
+// tabs
+document.querySelectorAll(".tab").forEach(b => b.addEventListener("click", () => {
+  document.querySelectorAll(".tab").forEach(x => x.setAttribute("aria-selected", x === b));
+  document.querySelectorAll(".panel").forEach(p => p.hidden = p.dataset.panel !== b.dataset.tab);
+}));
+
+// theme toggle
+const root = document.documentElement;
+document.getElementById("themeBtn").onclick = () => {
+  const dark = root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  root.dataset.theme = dark ? "light" : "dark";
+};
+
+// ---------- wizard ----------
+const QUICK = {
+  email:"gmail", calendar:"google calendar: Career (dedicated job-search calendar)",
+  files:"google drive: Job Search/ (Resumes/, Cover Letters/, Applications/<Company>/<Role>/, Networking/<YYYY-MM-DD Event>/, Interview Prep/, Strategy/)",
+  tasks:"ticktick: Job Search (flat tasks)", notes:"fireflies", store:"notion (duplicate the template)",
+  format:"md", persona:"accountability-partner"
+};
+const PERSONAS = {
+  "coach":"Coach: asks before telling, builds skills",
+  "strategist":"Strategist: bottom line first, sequencing and trade-offs",
+  "mentor":"Mentor: warm, explains the norms and the why",
+  "peer":"Peer: casual sounding board",
+  "accountability-partner":"Accountability Partner: metric-first, closes open loops",
+  "champion":"Champion: finds and amplifies your evidence"
+};
+const steps = [
+  {id:"me", type:"form", title:"About you", help:"Every module uses this. Leave anything blank that you don't know yet; the discovery module can help with it.",
+   fields:[["name","Name"],["positioning","One-line positioning (e.g. Strategy & Ops | Data | Hospitality Tech)"],["roles","Target roles, ranked (comma-separated)"],["industries","Target industries"],["notTargeting","Not targeting"],["location","Location / remote preference"]]},
+  {id:"stage", type:"choice", title:"Where are you in your search?", opts:[["exploring","Exploring: not sure what to target"],["listening tour","Listening tour: testing targets with people"],["actively applying","Actively applying"],["interviewing","Interviewing"],["negotiating","Negotiating an offer"]]},
+  {id:"persona", type:"choice", title:"What kind of assistant do you want?", help:"Not sure? Pick Accountability Partner. You can change it any time, or ask Claude for the 5-question persona quiz.", opts:Object.entries(PERSONAS)},
+  {id:"store", type:"choice", title:"Where should your tracker live?", help:"Companies, contacts, opportunities, meetings and tasks.", opts:[["notion (duplicate the template)","Quick: Notion template (the fastest and cheapest setup)"],["google sheets","Google Sheets (import the CSVs)"],["excel","Excel"],["airtable","Airtable"],["obsidian","Obsidian"],["csv folder","Plain CSV files in a folder"],["import existing","I already have a tracker, so import it"]]},
+  {id:"files", type:"choice", title:"Where do you keep job-search files?", opts:[[QUICK.files,"Quick: Google Drive with the standard folders"],["onedrive: Job Search/","OneDrive"],["dropbox: Job Search/","Dropbox"],["local: ~/Job Search/","A local folder (Claude Code / desktop)"],["claude project","Only inside my Claude Project"]]},
+  {id:"email", type:"choice", title:"Email for outreach, recruiters and interviews?", opts:[["gmail","Quick: Gmail"],["outlook","Outlook"],["none","Skip: I'll paste threads"]]},
+  {id:"calendar", type:"choice", title:"Calendar for availability and job-search events?", opts:[[QUICK.calendar,"Quick: Google Calendar + a dedicated \"Career\" calendar"],["google calendar: primary","Google Calendar (main calendar)"],["outlook","Outlook"],["notion calendar","Notion Calendar"],["none","Skip"]]},
+  {id:"tasks", type:"choice", title:"Where do your to-dos live?", opts:[[QUICK.tasks,"Quick: TickTick"],["todoist","Todoist"],["google tasks","Google Tasks"],["notion: Tasks db","The Notion tracker's Tasks table"],["things","Things"],["none","Skip: list them in chat"]]},
+  {id:"notes", type:"choice", title:"How do you capture calls and interviews?", opts:[["fireflies","Quick: Fireflies"],["granola","Granola"],["otter","Otter"],["google meet / zoom transcripts","Meet or Zoom transcripts"],["notion","Notion AI meeting notes"],["upload","I'll upload or paste notes"],["none","Nothing yet"]]},
+  {id:"format", type:"choice", title:"Default format for saved documents?", opts:[["md","Markdown (lightest)"],["docx","Word (.docx)"],["google doc","Google Doc"],["pdf","PDF"]]},
+  {id:"rules", type:"form", title:"Rules of the road", help:"These are proven defaults. Change them if they don't fit you.",
+   fields:[["convos","Weekly target: live conversations","5"],["apps","Weekly application cap (each with a named human)","5"],["answer","Behavioral answer format (CAR or STAR)","CAR"],["drafts","Max outreach drafts per sitting","3"]]},
+  {id:"done", type:"out", title:"Your profile is ready"},
+];
+const ans = JSON.parse(localStorageSafe("get") || "{}");
+let i = 0;
+function localStorageSafe(op, v){ try{ return op==="get" ? localStorage.getItem("jsa-wizard") : localStorage.setItem("jsa-wizard", v);}catch(e){ return null; } }
+function save(){ localStorageSafe("set", JSON.stringify(ans)); }
+function esc(s){ return String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+
+function render(){
+  const s = steps[i], st = document.getElementById("stage");
+  document.getElementById("bar").style.width = (i/(steps.length-1)*100)+"%";
+  document.getElementById("back").style.visibility = i ? "visible" : "hidden";
+  document.getElementById("next").style.display = s.type === "out" ? "none" : "";
+  let h = `<p class="q-title">${s.title}</p>` + (s.help ? `<p class="q-help">${s.help}</p>` : "");
+  if (s.type === "choice") {
+    h += `<div class="opts">` + s.opts.map(([v,l]) =>
+      `<button class="opt" data-v="${esc(v)}" aria-pressed="${ans[s.id]===v}">${esc(l)}</button>`).join("") +
+      (["me","stage","persona","rules","format"].includes(s.id) ? "" : `<button class="opt" data-v="none" aria-pressed="${ans[s.id]==="none"}">Skip for now<small>Features that need this stay off until you add it.</small></button>`) + `</div>`;
+  } else if (s.type === "form") {
+    h += s.fields.map(([k,l,d]) => `<div class="field"><label for="f-${k}">${l}</label><input type="text" id="f-${k}" data-k="${k}" value="${esc(ans[k] ?? d ?? "")}"></div>`).join("");
+  } else {
+    const md = profile();
+    h += `<p class="q-help">Download it, then add it to your Claude Project's knowledge (or, in Claude Code, save it to <code>~/.claude/job-search/</code>). Next, tell Claude: <em>“Read my job-search profile and connect what's missing.”</em></p>
+      <div class="row"><button class="btn primary" id="dl">Download job-search-profile.md</button><button class="btn" id="cp">Copy</button><button class="btn" id="restart">Start over</button></div>
+      <pre class="out" id="md">${esc(md)}</pre>`;
+  }
+  st.innerHTML = h;
+  st.querySelectorAll(".opt").forEach(b => b.onclick = () => { ans[s.id] = b.dataset.v; save(); i++; render(); });
+  st.querySelectorAll("input[data-k]").forEach(inp => inp.oninput = () => { ans[inp.dataset.k] = inp.value; save(); });
+  if (s.type === "out") {
+    document.getElementById("dl").onclick = () => { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([profile()],{type:"text/markdown"})); a.download = "job-search-profile.md"; a.click(); };
+    document.getElementById("cp").onclick = async e => { try { await navigator.clipboard.writeText(profile()); e.target.textContent = "Copied ✓"; } catch { e.target.textContent = "Select the text below"; } };
+    document.getElementById("restart").onclick = () => { for (const k in ans) delete ans[k]; save(); i = 0; render(); };
+  }
+  const first = st.querySelector("input,.opt"); if (first && i) first.focus({preventScroll:true});
+}
+document.getElementById("next").onclick = () => { if (i < steps.length-1) { i++; render(); } };
+document.getElementById("back").onclick = () => { if (i) { i--; render(); } };
+
+function v(k, d="") { const x = ans[k]; return x === undefined || x === "" ? d : x; }
+function profile(){
+  const today = new Date().toISOString().slice(0,10);
+  const store = v("store","none");
+  return `# Job Search Profile
+<!-- Generated by the setup wizard. Every job-search module reads this file first. Edit freely, or say "update my job search profile". -->
+
+profile_version: 1
+last_updated: ${today}
+
+## 1. Me
+- name: ${v("name")}
+- one-line positioning: ${v("positioning")}
+- target roles (ranked): ${v("roles")}
+- target industries: ${v("industries")}
+- not targeting: ${v("notTargeting")}
+- location / remote preference: ${v("location")}
+- search stage: ${v("stage","exploring")}
+- top 3 strengths:
+- signature proof points:
+
+## 2. Rules of the road
+- primary weekly metric: conversations (live calls/meetings) — target: ${v("convos","5")}
+- application cap per week: ${v("apps","5")} (each with a named human attached)
+- answer format: ${v("answer","CAR")}
+- drafts only, never send: yes
+- max outreach drafts per run: ${v("drafts","3")}
+- never guess email addresses: yes
+
+## 3. Assistant persona
+- persona: ${v("persona","accountability-partner")}
+- tone notes:
+- check-in cadence: weekly
+
+## 4. Connectors & locations
+- email: ${v("email","none")}
+- calendar: ${v("calendar","none")}
+- files root: ${v("files","none")}
+  - resumes: Resumes/
+  - cover letters: Cover Letters/
+  - applications (per company/role): Applications/<Company>/<Role>/
+  - networking (event briefs, contact lists): Networking/<YYYY-MM-DD Event>/
+  - interview prep: Interview Prep/
+  - strategy (profile, two-pager, goals): Strategy/
+- tasks: ${v("tasks","none")}
+- meeting notes / recordings: ${v("notes","none")}
+- contact enrichment (optional): none
+- reading highlights (optional): none
+
+## 5. Data store
+- backend: ${store}
+- companies:
+- contacts:
+- opportunities:
+- meetings:
+- tasks:
+- field-name overrides:
+${store.startsWith("notion") ? "<!-- After duplicating the Notion template and sharing it with the Notion connector, ask Claude to fill in the 5 database IDs. -->\n" : store === "import existing" ? "<!-- Ask Claude: \"import my tracker\". It will map your columns to the 5-table schema. -->\n" : ""}
+## 6. Source documents
+- master resume:
+- other resumes / cover letters:
+- linkedin profile (pdf/export):
+- book notes / methodology (optional):
+- default save format: ${v("format","md")}
+
+## 7. Notes for Claude
+`;
+}
+render();
+</script>
+</body>
+</html>
