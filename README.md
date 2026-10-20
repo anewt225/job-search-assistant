@@ -69,7 +69,7 @@ job-search-profile.md   ← written once by setup; read first by every module (s
 Five tables, 12 fields or fewer each, with sample data showing how they connect: **Companies** (with
 LAMP scoring) · **Contacts** · **Opportunities** · **Meetings** (only *live* ones count toward your weekly
 target) · **Tasks**.
-- **Notion:** *template link coming soon.* In the meantime, setup can build the databases for you.
+- **Notion:** [duplicate the template](https://alexnewton.notion.site/job-search-assistant-template?source=github_asst), then share it with Claude's Notion connector. Or let setup build the databases for you.
 - **Google Sheets, Excel, Airtable, Obsidian:** import [`templates/tracker-csv/`](templates/tracker-csv).
 - **Already have a tracker?** Say "import my tracker". Claude maps your columns to the schema and dedupes.
 
