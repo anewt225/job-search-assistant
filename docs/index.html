@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Job Search Assistant</title>
-<meta name="description" content="A modular job-search assistant for Claude, ChatGPT, Codex and any app that reads Agent Skills. Pick your app, answer a short setup quiz, download your profile.">
+<meta name="description" content="A modular job-search assistant for Claude, ChatGPT, Gemini, Grok, Codex and any app that reads Agent Skills. Pick your app, answer a short setup quiz, download your profile.">
 <style>
 :root{
   --bg:#f8fafc;--surface:#ffffff;--surface-2:#f1f5f9;--border:#e2e8f0;
@@ -89,7 +89,7 @@ footer{padding:32px 0 56px;color:var(--faint);font-size:.9rem;border-top:1px sol
   <div class="eyebrow">Agent Skills · free · open source</div>
   <h1>A job-search assistant that runs in the AI you already use.</h1>
   <p class="lede">Eight small skills that cover the whole search, from figuring out what to target to negotiating the offer. Each one is built on proven playbooks (<em>The 2-Hour Job Search</em>, <em>Never Search Alone</em>, <em>Reverse the Search</em>, <em>Linked</em>, <em>The Job Closer</em>), wired to whatever tools you already use, and tuned to the kind of coach you want.</p>
-  <p class="hosts">Works in <strong>Claude</strong> · <strong>ChatGPT</strong> · <strong>Codex</strong> · <strong>Claude Code</strong> · any app that reads <a href="https://agentskills.io">Agent Skills</a></p>
+  <p class="hosts">Works in <strong>Claude</strong> · <strong>ChatGPT</strong> · <strong>Gemini</strong> · <strong>Grok</strong> · <strong>Codex</strong> · <strong>Claude Code</strong> · <strong>Antigravity</strong> · any app that reads <a href="https://agentskills.io">Agent Skills</a></p>
   <div class="row">
     <a class="btn primary" href="#install">Get started</a>
     <a class="btn" href="#modules">Browse modules</a>
@@ -126,6 +126,22 @@ footer{padding:32px 0 56px;color:var(--faint);font-size:.9rem;border-top:1px sol
       <li>Optional: Settings → <strong>Apps</strong> → connect Gmail/Outlook, Calendar, Drive, Notion and so on.</li>
     </ol>
   </div>
+  <div class="panel" data-panel="gemini" hidden>
+    <ol>
+      <li>Use a personal Google account (work and school accounts can't use skills yet). Skills need <em>Keep Activity</em> turned on, which means Google keeps your Gemini chats. Check Gemini's activity settings if that matters to you.</li>
+      <li>On the web or Mac app: Settings → <strong>Skills</strong> → <em>Upload</em> → choose a module's <code>.zip</code> (<a href="#modules">pick modules</a>). Don't unzip it.</li>
+      <li>Gemini has no projects, so keep your profile from step 2 and attach it at the start of a job-search chat. Type <code>/</code> to pick a skill.</li>
+      <li>Optional: Settings → <strong>Apps</strong> → turn on Gmail, Calendar, Drive and Tasks.</li>
+    </ol>
+    <p class="q-help">Using a Gem? Gems are being replaced by skills (personal accounts from November 2026), so upload the skills instead.</p>
+  </div>
+  <div class="panel" data-panel="grok" hidden>
+    <ol>
+      <li>Open <strong>Skills</strong> on grok.com or in the app → upload a module's <code>.zip</code> (<a href="#modules">pick modules</a>).</li>
+      <li>Create a <strong>Project</strong> called "Job Search". You'll add your profile to its files in step 2.</li>
+      <li>Optional: connect Gmail, Drive and other tools under <strong>Connectors</strong>, where available.</li>
+    </ol>
+  </div>
   <div class="panel" data-panel="codex" hidden>
     <pre class="out">codex plugin marketplace add anewt225/job-search-assistant</pre>
     <p>Or unzip any module into <code>~/.agents/skills/</code>. Your profile lives at <code>~/.agents/job-search/job-search-profile.md</code>. Connect tools as MCP servers in <code>~/.codex/config.toml</code>.</p>
@@ -135,8 +151,11 @@ footer{padding:32px 0 56px;color:var(--faint);font-size:.9rem;border-top:1px sol
 /plugin install job-search-assistant@job-search-assistant</pre>
     <p>Or unzip any module into <code>~/.claude/skills/</code>. Your profile lives at <code>~/.claude/job-search/job-search-profile.md</code>.</p>
   </div>
+  <div class="panel" data-panel="antigravity" hidden>
+    <p>Unzip the modules into <code>~/.gemini/config/skills/</code> (every workspace) or <code>&lt;workspace&gt;/.agents/skills/</code> (one workspace). Works in the IDE and the <code>agy</code> CLI. Keep your profile at <code>~/.agents/job-search/job-search-profile.md</code>, and connect tools as MCP servers.</p>
+  </div>
   <div class="panel" data-panel="other" hidden>
-    <p>Any app that reads <a href="https://agentskills.io">Agent Skills</a> (Cursor, GitHub Copilot, Gemini CLI and others) can use these. Unzip the modules into that app's skills folder (see its docs), and keep <code>job-search-profile.md</code> in your working folder.</p>
+    <p>Any app that reads <a href="https://agentskills.io">Agent Skills</a> (GitHub Copilot, Cursor, Gemini CLI, Muse Code, Perplexity Computer and others) can use these. Many read <code>.agents/skills/</code>. Unzip the modules into that app's skills folder (see its docs), and keep <code>job-search-profile.md</code> in your working folder.</p>
   </div>
   <div class="row"><a class="btn primary" href="https://github.com/anewt225/job-search-assistant/releases/latest/download/job-search-assistant-all.zip">Download all 8 (one zip)</a><a class="btn" href="#wizard">Next: set up →</a></div>
 </section>
@@ -172,14 +191,14 @@ footer{padding:32px 0 56px;color:var(--faint);font-size:.9rem;border-top:1px sol
 
 <section id="faq">
   <h2>FAQ</h2>
-  <details><summary>Which AI apps does it work in?</summary><p>Any app that reads Agent Skills, the open <code>SKILL.md</code> format: Claude, ChatGPT, Codex, Claude Code, and others such as Cursor and GitHub Copilot. The skills never assume which app they're in. App-specific steps live in one table (<a href="https://github.com/anewt225/job-search-assistant/blob/main/shared/hosts.md">hosts.md</a>).</p></details>
-  <details><summary>What does it cost?</summary><p>The skills are free. They run on your existing AI plan (Claude Pro or higher; a ChatGPT workspace with Skills turned on; or Codex). Connectors and big imports use more of your usage. The Notion template is the cheapest way to set up.</p></details>
+  <details><summary>Which AI apps does it work in?</summary><p>Any app that reads Agent Skills, the open <code>SKILL.md</code> format: Claude, ChatGPT, Gemini, Grok, Codex, Claude Code and Antigravity, plus others such as GitHub Copilot and Cursor. The skills never assume which app they're in. App-specific steps live in one table (<a href="https://github.com/anewt225/job-search-assistant/blob/main/shared/hosts.md">hosts.md</a>).</p></details>
+  <details><summary>What does it cost?</summary><p>The skills are free. They run on your existing AI plan (Claude Pro or higher; a ChatGPT workspace with Skills turned on; any Gemini or Grok account; or Codex). Connectors and big imports use more of your usage. The Notion template is the cheapest way to set up.</p></details>
   <details><summary>Will it send emails for me?</summary><p>No. It only drafts. It never sends messages and never guesses email addresses.</p></details>
   <details><summary>Do I need any connectors?</summary><p>No. Every module falls back to paste or upload. Connectors just save you copy-pasting.</p></details>
   <details><summary>Where is my data?</summary><p>Only in your own AI account and your own tools. This page stores nothing on a server; your answers stay in your browser.</p></details>
 </section>
 
-<footer>Made by <a href="https://github.com/anewt225">Alex Newton</a>. Frameworks credit their authors; buy the books. MIT licensed. Not affiliated with Anthropic or OpenAI.</footer>
+<footer>Made by <a href="https://github.com/anewt225">Alex Newton</a>. Frameworks credit their authors; buy the books. MIT licensed. Not affiliated with Anthropic, OpenAI, Google or xAI.</footer>
 </div>
 
 <script>
@@ -198,7 +217,7 @@ document.getElementById("moduleGrid").innerHTML = MODULES.map(([id,t,d,tr]) =>
   `<div class="card"><h3>${t}</h3><p>${d}</p><div class="try">“${tr.replace(/</g,"&lt;")}”</div><a class="btn" href="${REL}${id}.zip">Download .zip</a></div>`).join("");
 
 // ---------- host picker (install tabs) ----------
-const HOSTS = [["claude","Claude app / claude.ai","claude"],["chatgpt","ChatGPT","chatgpt"],["codex","Codex","codex"],["code","Claude Code","claude code"],["other","Other","other"]];
+const HOSTS = [["claude","Claude","claude"],["chatgpt","ChatGPT","chatgpt"],["gemini","Gemini","gemini"],["grok","Grok","grok"],["codex","Codex","codex"],["code","Claude Code","claude code"],["antigravity","Antigravity","antigravity"],["other","Other","other"]];
 const ans = JSON.parse(localStorageSafe("get") || "{}");
 function localStorageSafe(op, v){ try{ return op==="get" ? localStorage.getItem("jsa-wizard") : localStorage.setItem("jsa-wizard", v);}catch(e){ return null; } }
 function save(){ localStorageSafe("set", JSON.stringify(ans)); }
@@ -265,6 +284,9 @@ const NEXT = {
   claude:["Download the profile.","Open your <strong>Job Search</strong> Project → add the file to the Project's knowledge.","Start a chat in that Project and say: <em>“Read my job-search profile and connect what's missing.”</em>"],
   chatgpt:["Download the profile.","Open your <strong>Job Search</strong> Project → add the file to the Project's files.","Start a chat in that Project and say: <em>“Read my job-search profile and connect what's missing.”</em>"],
   codex:["Download the profile.","Save it to <code>~/.agents/job-search/job-search-profile.md</code> (or the folder you work in).","Run Codex and say: <em>“Read my job-search profile and connect what's missing.”</em>"],
+  gemini:["Download the profile and keep it somewhere handy (Drive is fine).","Start a Gemini chat, attach the file, and type <code>/</code> to pick <em>job-search-setup</em>.","Say: <em>“Read my job-search profile and connect what's missing.”</em> Attach the file again in each new job-search chat."],
+  grok:["Download the profile.","Open your <strong>Job Search</strong> Project → add the file to the Project's files.","Start a chat in that Project and say: <em>“Read my job-search profile and connect what's missing.”</em>"],
+  antigravity:["Download the profile.","Save it to <code>~/.agents/job-search/job-search-profile.md</code> (or the workspace you open).","Ask the agent: <em>“Read my job-search profile and connect what's missing.”</em>"],
   code:["Download the profile.","Save it to <code>~/.claude/job-search/job-search-profile.md</code>.","Run Claude Code and say: <em>“Read my job-search profile and connect what's missing.”</em>"],
   other:["Download the profile.","Save it in the folder you work in, or attach it to the chat.","Say: <em>“Read my job-search profile and connect what's missing.”</em>"],
 };

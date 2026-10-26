@@ -4,7 +4,8 @@
 negotiating the offer. They're grounded in proven playbooks (*The 2-Hour Job Search*, *Never Search
 Alone*, *Reverse the Search*, *Linked*, *The Job Closer*, *Career Coach GPT*), wired to whatever tools you
 already use, and tuned to the kind of coach you want. They're standard [Agent Skills](https://agentskills.io)
-(`SKILL.md` folders), so they run in **Claude, ChatGPT, Codex, Claude Code** and other apps that read them.
+(`SKILL.md` folders), so they run in **Claude, ChatGPT, Gemini, Grok, Codex, Antigravity, Claude Code** and other apps that
+read them.
 
 ### ▶ **[Start here: interactive setup & downloads](https://anewt225.github.io/job-search-assistant/)**
 
@@ -36,8 +37,19 @@ Each module is a standalone skill. Install one, or all of them.
 
 **ChatGPT** (workspaces with Skills turned on)
 1. Upload a module from the Skills page, or install the plugin from the ChatGPT desktop app's plugin directory
-   (after adding the marketplace below).
+   (after adding the marketplace with the Codex command below).
 2. Create a **Project** called "Job Search" and add your `job-search-profile.md` to its files.
+
+**Gemini app** (personal Google account; web or Mac app; skills need *Keep Activity* on, so Google keeps your chats)
+1. Settings → **Skills** → *Upload* → choose a module's `.zip`. Pick a skill with `/` in any chat.
+2. Gemini has no projects, so attach your `job-search-profile.md` at the start of a job-search chat.
+3. Optional: Settings → **Apps** → turn on Gmail, Calendar, Drive and Tasks.
+
+Gems are being replaced by skills (personal accounts from November 2026), so use skills rather than a Gem.
+
+**Grok**
+1. **Skills** → upload a module's `.zip`.
+2. Add your `job-search-profile.md` to a Project's files, or attach it to the chat.
 
 **Codex**
 ```
@@ -52,10 +64,16 @@ Or unzip modules into `~/.agents/skills/`.
 ```
 Or unzip modules into `~/.claude/skills/`.
 
+**Antigravity** (IDE or `agy` CLI)
+Unzip the modules into `~/.gemini/config/skills/` (every workspace) or `<workspace>/.agents/skills/`.
+
+**Anything else that reads Agent Skills** (GitHub Copilot, Cursor, Gemini CLI, Muse Code, Perplexity
+Computer …): put the module folders wherever that app loads skills from. Many read `.agents/skills/`.
+
 You get `job-search-profile.md` from [the setup wizard](https://anewt225.github.io/job-search-assistant/#wizard),
 or by saying "set up my job search". Optional: connect Gmail/Outlook, Google/Outlook Calendar, Drive/OneDrive,
-Notion/Sheets/Airtable, Todoist/TickTick, Fireflies/Granola. Claude calls these *Connectors*, ChatGPT calls
-them *Apps*, and Codex uses *MCP servers*. Per-app details: [`shared/hosts.md`](shared/hosts.md).
+Notion/Sheets/Airtable, Todoist/TickTick, Fireflies/Granola. Claude and Grok call these *Connectors*, ChatGPT and
+Gemini call them *Apps*, and Codex, Claude Code and Antigravity use *MCP servers*. Per-app details: [`shared/hosts.md`](shared/hosts.md).
 
 ## How it fits together
 
@@ -82,9 +100,9 @@ job-search-profile.md   ← written once by setup; read first by every module (s
 Five tables, 12 fields or fewer each, with sample data showing how they connect: **Companies** (with
 LAMP scoring) · **Contacts** · **Opportunities** · **Meetings** (only *live* ones count toward your weekly
 target) · **Tasks**.
-- **Notion:** [duplicate the template](https://alexnewton.notion.site/job-search-assistant-template?source=github_asst), then share it with Claude's Notion connector. Or let setup build the databases for you.
+- **Notion:** [duplicate the template](https://alexnewton.notion.site/job-search-assistant-template?source=github_asst), then share it with your assistant's Notion connector. Or let setup build the databases for you.
 - **Google Sheets, Excel, Airtable, Obsidian:** import [`templates/tracker-csv/`](templates/tracker-csv).
-- **Already have a tracker?** Say "import my tracker". Claude maps your columns to the schema and dedupes.
+- **Already have a tracker?** Say "import my tracker". The assistant maps your columns to the schema and dedupes.
 
 Schema: [`shared/data-schema.md`](shared/data-schema.md)
 
@@ -105,13 +123,13 @@ build.py                uv run --no-project build.py → dist/*.zip + plugin/ski
 ## Principles
 
 Platform-agnostic, portable, minimal data, a human approves anything that reaches another person.
-The full list is in [`PRINCIPLES.md`](PRINCIPLES.md).
+The full list, each linked to where the product keeps it, is in [`PRINCIPLES.md`](PRINCIPLES.md).
 
 ## Credits & license
 
 Frameworks belong to their authors: Steve Dalton, Phyl Terry, Madeline Mann, Omar Garriott & Jeremy
 Schifeling, Bill Burnett & Dave Evans, Jenny Blake, Richard Bolles, Reid Hoffman & Ben Casnocha, and
 others. The `library/` notes are personal study notes that cite those works. Please buy the books.
-Code and original text: MIT. Not affiliated with Anthropic or OpenAI.
+Code and original text: MIT. Not affiliated with Anthropic, OpenAI, Google or xAI.
 
 Built by [Alex Newton](https://github.com/anewt225).

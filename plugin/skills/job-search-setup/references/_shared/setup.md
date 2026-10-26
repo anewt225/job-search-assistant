@@ -49,14 +49,16 @@ connector to enable, using the host's own steps and word for it (`hosts.md`), an
 | rhythm | 1, 2, 3, 5, 7, 10, 11 |
 
 ## 3. Importing what they already have
-If the user shares an existing tracker, project instructions (Claude, ChatGPT, a custom GPT), a CLAUDE.md or AGENTS.md, an "about me" doc or
+If the user shares an existing tracker, project instructions (Claude, ChatGPT, a custom GPT, a Gemini Gem), a CLAUDE.md or AGENTS.md, an "about me" doc or
 past outputs: read them, extract into profile fields, show the diff, confirm. For trackers follow
 `data-schema.md` §Import.
 
 ## 4. Save + confirm
 - Write `job-search-profile.md`. Where: the files root's `Strategy/` folder if one is set; otherwise the
-  host's location from `hosts.md`. In a chat app (Claude, ChatGPT), output the file and tell the user to
-  **add it to the project's files/knowledge** (or paste it into project instructions) so every chat sees it.
+  host's location from `hosts.md`. In a chat app (Claude, ChatGPT, Gemini, Grok), output the file and tell
+  the user to **add it to the project's files/knowledge** (or paste it into project instructions) so every
+  chat sees it. Where the app has no projects (Gemini), tell them to keep the file and attach it at the
+  start of each job-search chat.
 - End with a 5-line summary: persona, data store, connected tools, skipped tools, and the one command
   to try next.
 

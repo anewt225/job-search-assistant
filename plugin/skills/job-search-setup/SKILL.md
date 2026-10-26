@@ -1,6 +1,6 @@
 ---
 name: job-search-setup
-description: Onboarding and hub for the Job Search Assistant suite. Runs the full setup, either Quick (copy a proven Gmail, Google Calendar, Drive, Notion, TickTick and Fireflies stack) or bring-your-own (a short quiz per component), picks an assistant persona, creates or imports the tracker (Notion, Google Sheets, Excel, Airtable, CSV, Obsidian), merges existing project instructions (Claude, ChatGPT, custom GPT, AGENTS.md) or notes, and writes job-search-profile.md, which every module reads. Also answers "what can you do / where do I start" and routes to the right module. Use for "set up my job search", "onboard me", "change my settings or persona", "import my tracker", "connect my tools", or "help with my job search" with no specific task.
+description: Onboarding and hub for the Job Search Assistant suite. Runs the full setup, either Quick (copy a proven Gmail, Google Calendar, Drive, Notion, TickTick and Fireflies stack) or bring-your-own (a short quiz per component), picks an assistant persona, creates or imports the tracker (Notion, Google Sheets, Excel, Airtable, CSV, Obsidian), merges existing project instructions (Claude, ChatGPT, custom GPT, Gemini Gem, AGENTS.md) or notes, and writes job-search-profile.md, which every module reads. Also answers "what can you do / where do I start" and routes to the right module. Use for "set up my job search", "onboard me", "change my settings or persona", "import my tracker", "connect my tools", or "help with my job search" with no specific task.
 ---
 
 # Job Search: Setup & Hub

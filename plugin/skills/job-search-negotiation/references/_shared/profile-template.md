@@ -30,7 +30,7 @@ last_updated: YYYY-MM-DD
 - check-in cadence:                 # none | daily | weekly
 
 ## 4. Connectors & locations   (value = tool name + where; "none" = skip that feature)
-- host app:                         # claude | claude code | chatgpt | codex | other (see hosts.md)
+- host app:                         # claude | claude code | chatgpt | codex | gemini | antigravity | grok | other (see hosts.md)
 - email:                            # gmail | outlook | none
 - calendar:                         # google calendar: <calendar name/id> | outlook | none
 - files root:                       # google drive: <folder> | onedrive: <path> | local: <path> | ai project files

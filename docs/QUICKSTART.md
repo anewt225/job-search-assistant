@@ -1,6 +1,6 @@
 # Job Search Assistant: Quick Start
 
-These skills turn your AI assistant (Claude, ChatGPT, Codex or any app that reads Agent Skills) into a job-search assistant. They're built on proven playbooks: *The 2-Hour Job Search*, *Never Search Alone*, *Reverse the Search* and *Linked*. Each module works on its own. Install one or all of them.
+These skills turn your AI assistant (Claude, ChatGPT, Gemini, Grok, Codex, Antigravity or any app that reads Agent Skills) into a job-search assistant. They're built on proven playbooks: *The 2-Hour Job Search*, *Never Search Alone*, *Reverse the Search* and *Linked*. Each module works on its own. Install one or all of them.
 
 ## 1. Install (2 minutes)
 
@@ -11,17 +11,26 @@ These skills turn your AI assistant (Claude, ChatGPT, Codex or any app that read
 **ChatGPT** (workspaces with Skills turned on)
 - Upload the module from the Skills page, or install the plugin from the ChatGPT desktop app's plugin directory.
 
+**Gemini app** (personal Google account)
+- Settings → **Skills** → **Upload** → choose the `.zip` (web or Mac app). Use skills, not Gems: Gems are being replaced.
+
+**Grok**
+- **Skills** → upload the `.zip`.
+
 **Codex**
 - `codex plugin marketplace add anewt225/job-search-assistant`, or unzip into `~/.agents/skills/`.
 
 **Claude Code**
 - `/plugin marketplace add anewt225/job-search-assistant`, or unzip into `~/.claude/skills/`.
 
+**Antigravity**
+- Unzip into `~/.gemini/config/skills/` (every workspace) or `<workspace>/.agents/skills/`.
+
 ## 2. Recommended: make a project
-Create a **Project** called *Job Search* (Claude and ChatGPT both have them). After setup, add the `job-search-profile.md` file you get to the project's files or knowledge. Every chat in that project will then know your targets, tools and preferences. In Codex or Claude Code, the assistant saves the profile for you.
+Create a **Project** called *Job Search* (Claude, ChatGPT and Grok have them). After setup, add the `job-search-profile.md` file you get to the project's files or knowledge. Every chat in that project will then know your targets, tools and preferences. Gemini has no projects: attach the file at the start of a job-search chat. In Codex, Claude Code or Antigravity, the assistant saves the profile for you.
 
 ## 3. Connect your tools (optional, but this is where it gets useful)
-Claude calls these **Connectors**, ChatGPT calls them **Apps**, and Codex uses **MCP servers**. Turn on whatever you already use:
+Claude and Grok call these **Connectors**, ChatGPT and Gemini call them **Apps**, and Codex, Claude Code and Antigravity use **MCP servers**. Turn on whatever you already use:
 - **Email:** Gmail or Outlook
 - **Calendar:** Google Calendar or Outlook
 - **Files:** Google Drive or OneDrive
