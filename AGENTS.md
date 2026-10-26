@@ -1,11 +1,12 @@
 # AGENTS.md
 
-Instructions for coding agents (Codex, Claude Code, Cursor and others) working in this repo.
+Instructions for coding agents (Codex, Claude Code, Antigravity, Cursor and others) working in this repo.
 
 ## What this is
 Eight [Agent Skills](https://agentskills.io) (`SKILL.md` folders) for a job search, plus a setup
 wizard site. The skills are written to run in any host that reads Agent Skills: Claude, ChatGPT,
-Codex, Claude Code and others.
+Gemini, Grok, Codex, Antigravity, Claude Code and others. The module zips are the upload format for every
+chat app (Claude, ChatGPT, Gemini, Grok): one top-level folder named after the skill, `SKILL.md` inside.
 
 ## Layout
 - `modules/<module>/`: source of truth for each skill (`SKILL.md`, `references/`, `agents/openai.yaml`).
@@ -25,9 +26,15 @@ uv run --no-project build.py
 Writes `dist/*.zip` (one per module plus an all-in-one) and regenerates `plugin/skills/`.
 
 ## Rules for edits
+- Follow [`PRINCIPLES.md`](PRINCIPLES.md). If a change conflicts with a principle, flag it instead of
+  working around it.
 - Keep skills host-neutral. Anything app-specific (menu paths, where files live, scheduling, voice)
   goes in `shared/hosts.md` only; modules point to it. Say "the assistant", not a product name.
 - Keep `SKILL.md` files short; put detail in `references/` so it loads only when needed.
 - Ground rules are product features: drafts only, never send; never guess email addresses; at most
   3 outreach drafts per run.
+- Keep module files plain text (`.md`, `.csv`, `.json`, `.py`, `.yaml`). The Gemini app rejects binary
+  files such as `.docx` and `.xlsx`, and its scripts can't reach the internet, so no script may depend on
+  a network call.
+- Keep each skill's folder name equal to its `name:` frontmatter (Gemini requires it).
 - `private/` is personal material and is gitignored. Never publish from it.

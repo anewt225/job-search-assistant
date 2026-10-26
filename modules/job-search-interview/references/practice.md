@@ -7,7 +7,7 @@
 2. **Format.** Say this, then wait for a yes:
    > "Default is a **25-minute mock**: about 6–8 questions in Big Four order (TMAY → why us → behavioural
    > → one curveball → your questions), with short feedback after each answer and a full debrief at the end.
-   > **Voice mode works best.** In the Claude or ChatGPT app, tap the voice/microphone button so you answer out loud.
+   > **Voice mode works best.** In the Claude, ChatGPT or Grok app, tap the voice/microphone button (in Gemini, use Gemini Live) so you answer out loud.
    > Want 25 minutes, a different length (10 / 45), feedback only at the end (more realistic), or a
    > specific focus (TMAY, behavioural, case, a weak spot)?"
 3. **Persona.** The interviewer plays the role realistically: friendly, neutral or tough to match the
