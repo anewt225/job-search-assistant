@@ -1,0 +1,8 @@
+# OpenAI (ChatGPT / Codex) display metadata. Other hosts ignore this file.
+interface:
+  display_name: "Job Search: Daily & Weekly"
+  short_description: "2-minute stand-up and weekly retro"
+  default_prompt: "Run my weekly review"
+  brand_color: "#C2410C"
+policy:
+  allow_implicit_invocation: true

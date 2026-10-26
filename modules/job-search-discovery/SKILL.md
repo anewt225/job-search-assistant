@@ -45,8 +45,8 @@ re-ask what they already answer.
 - Show the draft and accept edits. It's a draft; the listening tour refines it (Terry).
 - Save `Two-Pager.<fmt>` to the strategy folder from profile §4.
 - **Update profile §1** (positioning, target roles, industries, not-targeting, strengths, proof points)
-  after confirming the diff with the user. On claude.ai, output the updated profile and remind the user to
-  replace the copy in Project knowledge.
+  after confirming the diff with the user. In a chat app, output the updated profile and remind the user to
+  replace the copy in the project's files (`_shared/hosts.md`).
 - Next step: "Want to test these with 3 prototype conversations? The networking module can draft the
   outreach."
 

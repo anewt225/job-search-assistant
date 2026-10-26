@@ -1,0 +1,8 @@
+# OpenAI (ChatGPT / Codex) display metadata. Other hosts ignore this file.
+interface:
+  display_name: "Job Search: Interviews"
+  short_description: "Prep brief, mock interview and debrief"
+  default_prompt: "Prep me for my interview with <company>"
+  brand_color: "#C2410C"
+policy:
+  allow_implicit_invocation: true

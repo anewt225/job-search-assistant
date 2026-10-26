@@ -1,0 +1,8 @@
+# OpenAI (ChatGPT / Codex) display metadata. Other hosts ignore this file.
+interface:
+  display_name: "Job Search: Resume & Cover Letter"
+  short_description: "Score and tailor against a job description"
+  default_prompt: "Tailor my resume for <posting URL>"
+  brand_color: "#C2410C"
+policy:
+  allow_implicit_invocation: true

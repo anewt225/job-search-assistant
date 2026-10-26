@@ -1,0 +1,8 @@
+# OpenAI (ChatGPT / Codex) display metadata. Other hosts ignore this file.
+interface:
+  display_name: "Job Search: Setup"
+  short_description: "Onboard, pick a coach persona, connect your tools"
+  default_prompt: "Set up my job search"
+  brand_color: "#C2410C"
+policy:
+  allow_implicit_invocation: true

@@ -1,10 +1,12 @@
-"""Bundle each module with the shared layer + its book notes, zip it, and assemble the Claude Code plugin.
+"""Bundle each module with the shared layer + its book notes, zip it, and assemble the plugin.
 
 Usage: uv run --no-project build.py [module-name ...]   (default: every folder in modules/)
 Outputs:
-  dist/<module>.zip                 claude.ai skill upload format (top-level folder = module, SKILL.md inside)
-  dist/job-search-assistant-all.zip every module in one zip (unzip into ~/.claude/skills/)
-  plugin/skills/<module>/           Claude Code plugin served by .claude-plugin/marketplace.json
+  dist/<module>.zip                 skill upload format for Claude and ChatGPT (top-level folder = module, SKILL.md inside)
+  dist/job-search-assistant-all.zip every module in one zip (unzip into ~/.claude/skills/ or ~/.agents/skills/)
+  plugin/skills/<module>/           one plugin for every host: .claude-plugin/plugin.json (Claude Code) and
+                                    plugin.json (portable manifest for ChatGPT / Codex), served by
+                                    .claude-plugin/marketplace.json and .agents/plugins/marketplace.json
 """
 
 import shutil

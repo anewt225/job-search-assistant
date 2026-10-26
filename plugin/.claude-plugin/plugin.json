@@ -1,6 +1,6 @@
 {
   "name": "job-search-assistant",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Modular job-search assistant: setup + personas, self-discovery, LinkedIn review, resume & cover letter tailoring, networking & event prep, interview prep/practice/debrief, negotiation, and daily stand-up / weekly retro. Bring your own tools (Gmail/Outlook, Google/Outlook Calendar, Drive/OneDrive, Notion/Sheets/Airtable, TickTick/Todoist, Fireflies/Granola) or none.",
   "author": { "name": "Alex Newton" },
   "license": "MIT",
