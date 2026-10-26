@@ -25,6 +25,8 @@ uv run --no-project build.py
 Writes `dist/*.zip` (one per module plus an all-in-one) and regenerates `plugin/skills/`.
 
 ## Rules for edits
+- Follow [`PRINCIPLES.md`](PRINCIPLES.md). If a change conflicts with a principle, flag it instead of
+  working around it.
 - Keep skills host-neutral. Anything app-specific (menu paths, where files live, scheduling, voice)
   goes in `shared/hosts.md` only; modules point to it. Say "the assistant", not a product name.
 - Keep `SKILL.md` files short; put detail in `references/` so it loads only when needed.

@@ -102,6 +102,11 @@ docs/                   GitHub Pages site + setup wizard
 build.py                uv run --no-project build.py → dist/*.zip + plugin/skills/
 ```
 
+## Principles
+
+Platform-agnostic, portable, minimal data, a human approves anything that reaches another person.
+The full list is in [`PRINCIPLES.md`](PRINCIPLES.md).
+
 ## Credits & license
 
 Frameworks belong to their authors: Steve Dalton, Phyl Terry, Madeline Mann, Omar Garriott & Jeremy
