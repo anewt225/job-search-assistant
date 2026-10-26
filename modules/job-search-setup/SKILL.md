@@ -1,12 +1,13 @@
 ---
 name: job-search-setup
-description: Onboarding and hub for the Job Search Assistant suite. Runs the full setup, either Quick (copy a proven Gmail, Google Calendar, Drive, Notion, TickTick and Fireflies stack) or bring-your-own (a short quiz per component), picks an assistant persona, creates or imports the tracker (Notion, Google Sheets, Excel, Airtable, CSV, Obsidian), merges existing Claude Project instructions or notes, and writes job-search-profile.md, which every module reads. Also answers "what can you do / where do I start" and routes to the right module. Use for "set up my job search", "onboard me", "change my settings or persona", "import my tracker", "connect my tools", or "help with my job search" with no specific task.
+description: Onboarding and hub for the Job Search Assistant suite. Runs the full setup, either Quick (copy a proven Gmail, Google Calendar, Drive, Notion, TickTick and Fireflies stack) or bring-your-own (a short quiz per component), picks an assistant persona, creates or imports the tracker (Notion, Google Sheets, Excel, Airtable, CSV, Obsidian), merges existing project instructions (Claude, ChatGPT, custom GPT, AGENTS.md) or notes, and writes job-search-profile.md, which every module reads. Also answers "what can you do / where do I start" and routes to the right module. Use for "set up my job search", "onboard me", "change my settings or persona", "import my tracker", "connect my tools", or "help with my job search" with no specific task.
 ---
 
 # Job Search: Setup & Hub
 
 ## Run setup
-Follow `references/_shared/setup.md` fully (all 12 components). Use `references/_shared/personas.md` for
+Follow `references/_shared/setup.md` fully (all 12 components), with `references/_shared/hosts.md` for
+anything app-specific. Use `references/_shared/personas.md` for
 the persona step, `references/_shared/data-schema.md` for the data store and imports, and
 `references/_shared/profile-template.md` for the output.
 
@@ -15,15 +16,15 @@ notes → source docs → output format → rules → extras. Offer to bundle: "
 
 **Data store paths**
 - **Notion template (fastest):** give the template link from the README. The user duplicates it, then
-  shares the page with the Notion connector. Fetch it and record the 5 database IDs in the profile.
+  shares the page with the host's Notion connector (an "app" in ChatGPT). Fetch it and record the 5 database IDs in the profile.
 - **Build for me:** create the 5 tables in the chosen backend from `data-schema.md`. Warn once that this
   costs more usage than duplicating the template.
 - **Import / merge:** follow `data-schema.md` §Import.
 - **Nothing yet:** start with CSV files in the files root, and migrate later.
 
-**Merge existing context:** if the user pastes Claude Project instructions, a CLAUDE.md, an "about me" doc
+**Merge existing context:** if the user pastes project instructions, a custom GPT's instructions, a CLAUDE.md or AGENTS.md, an "about me" doc
 or old prompts, extract the durable facts into the profile (positioning, rules, tone). Put anything that
-doesn't fit into §7 "Notes for Claude". Show the result before saving.
+doesn't fit into §7 "Notes for the assistant". Show the result before saving.
 
 ## After setup
 1. Save the profile (setup.md §4) and print the 5-line summary.

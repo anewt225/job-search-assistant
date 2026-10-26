@@ -1,0 +1,8 @@
+# OpenAI (ChatGPT / Codex) display metadata. Other hosts ignore this file.
+interface:
+  display_name: "Job Search: Negotiation"
+  short_description: "Comp research, counter scripts and role-play"
+  default_prompt: "I got an offer. Help me negotiate"
+  brand_color: "#C2410C"
+policy:
+  allow_implicit_invocation: true

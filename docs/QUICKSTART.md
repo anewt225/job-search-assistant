@@ -1,22 +1,27 @@
 # Job Search Assistant: Quick Start
 
-These skills turn Claude into a job-search assistant. They're built on proven playbooks: *The 2-Hour Job Search*, *Never Search Alone*, *Reverse the Search* and *Linked*. Each module works on its own. Install one or all of them.
+These skills turn your AI assistant (Claude, ChatGPT, Codex or any app that reads Agent Skills) into a job-search assistant. They're built on proven playbooks: *The 2-Hour Job Search*, *Never Search Alone*, *Reverse the Search* and *Linked*. Each module works on its own. Install one or all of them.
 
 ## 1. Install (2 minutes)
 
-**Claude desktop app or claude.ai (Pro, Max, Team or Enterprise)**
+**Claude desktop app or claude.ai** (Pro, Max, Team or Enterprise)
 1. Settings → **Capabilities** → make sure **Code execution and file creation** is on.
 2. Settings → **Capabilities → Skills** → **Upload skill** → choose the `.zip` file. Don't unzip it first.
-3. Toggle the skill on.
+
+**ChatGPT** (workspaces with Skills turned on)
+- Upload the module from the Skills page, or install the plugin from the ChatGPT desktop app's plugin directory.
+
+**Codex**
+- `codex plugin marketplace add anewt225/job-search-assistant`, or unzip into `~/.agents/skills/`.
 
 **Claude Code**
-Unzip the file into `~/.claude/skills/`, so you end up with `~/.claude/skills/<module>/SKILL.md`.
+- `/plugin marketplace add anewt225/job-search-assistant`, or unzip into `~/.claude/skills/`.
 
-## 2. Recommended: make a Project
-Create a Claude **Project** called *Job Search*. After setup, add the `job-search-profile.md` file Claude gives you to the Project's knowledge. Every chat in that Project will then know your targets, tools and preferences, so you won't have to repeat them.
+## 2. Recommended: make a project
+Create a **Project** called *Job Search* (Claude and ChatGPT both have them). After setup, add the `job-search-profile.md` file you get to the project's files or knowledge. Every chat in that project will then know your targets, tools and preferences. In Codex or Claude Code, the assistant saves the profile for you.
 
 ## 3. Connect your tools (optional, but this is where it gets useful)
-Settings → **Connectors**. Turn on whatever you already use:
+Claude calls these **Connectors**, ChatGPT calls them **Apps**, and Codex uses **MCP servers**. Turn on whatever you already use:
 - **Email:** Gmail or Outlook
 - **Calendar:** Google Calendar or Outlook
 - **Files:** Google Drive or OneDrive
@@ -24,7 +29,7 @@ Settings → **Connectors**. Turn on whatever you already use:
 - **Tasks:** Todoist, TickTick or others
 - **Meeting notes:** Fireflies, Granola or others
 
-Every module also works without connectors. It falls back to asking you to paste or upload things.
+Every module also works without them. It falls back to asking you to paste or upload things.
 
 ## 4. First run
 Start a chat and type something like:
@@ -33,7 +38,7 @@ Start a chat and type something like:
 
 (Or skip setup and just ask for something. Each module asks only for what it needs.)
 
-Claude runs a short setup. For each part it offers **Quick**, which copies a proven setup; **Bring your own**, a short quiz about the tools you use; or **Skip**. It also asks you to pick an assistant persona: Coach, Strategist, Mentor, Peer, Accountability Partner or Champion. You can also take a 5-question quiz to choose one.
+The assistant runs a short setup. For each part it offers **Quick**, which copies a proven setup; **Bring your own**, a short quiz about the tools you use; or **Skip**. It also asks you to pick an assistant persona: Coach, Strategist, Mentor, Peer, Accountability Partner or Champion. You can also take a 5-question quiz to choose one.
 
 ## 5. Things to try
 | Module | Say |

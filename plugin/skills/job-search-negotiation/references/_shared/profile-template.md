@@ -20,7 +20,7 @@ last_updated: YYYY-MM-DD
 - primary weekly metric: conversations (live calls/meetings) — target: 5
 - application cap per week: 5 (each with a named human attached)   # set 0 to disable
 - answer format: CAR                # CAR | STAR
-- drafts only, never send: yes      # Claude drafts; you send
+- drafts only, never send: yes      # the assistant drafts; you send
 - max outreach drafts per run: 3
 - never guess email addresses: yes
 
@@ -30,9 +30,10 @@ last_updated: YYYY-MM-DD
 - check-in cadence:                 # none | daily | weekly
 
 ## 4. Connectors & locations   (value = tool name + where; "none" = skip that feature)
+- host app:                         # claude | claude code | chatgpt | codex | other (see hosts.md)
 - email:                            # gmail | outlook | none
 - calendar:                         # google calendar: <calendar name/id> | outlook | none
-- files root:                       # google drive: <folder> | onedrive: <path> | local: <path> | claude project
+- files root:                       # google drive: <folder> | onedrive: <path> | local: <path> | ai project files
   - resumes:
   - cover letters:
   - applications (per company/role):
@@ -60,5 +61,5 @@ last_updated: YYYY-MM-DD
 - book notes / methodology (optional):
 - default save format: md           # md | docx | pdf | google doc
 
-## 7. Notes for Claude
+## 7. Notes for the assistant
 <!-- Anything else: project instructions, recurring context, things to avoid. -->

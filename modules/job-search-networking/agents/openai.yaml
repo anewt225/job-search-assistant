@@ -1,0 +1,8 @@
+# OpenAI (ChatGPT / Codex) display metadata. Other hosts ignore this file.
+interface:
+  display_name: "Job Search: Networking"
+  short_description: "Outreach drafts, follow-ups and event briefs"
+  default_prompt: "Draft outreach to <name> at <company>"
+  brand_color: "#C2410C"
+policy:
+  allow_implicit_invocation: true

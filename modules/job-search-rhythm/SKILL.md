@@ -20,7 +20,7 @@ target, application cap), persona and connected tools. If it's missing, ask for 
   Contacts with Next Follow-up ≤ today) · email: search only for recruiter, interview and reply threads
   from the last 1–7 days (subjects and senders, not bodies). Cap each source at about 10 items.
 - **Talk:** ask the questions below and suggest from what you already know (profile, prior outputs in
-  this Project).
+  this project).
 
 ## Daily stand-up (≤ 15 lines of output)
 Ask in one message (pre-filled from the sync when available; the user corrects it):
@@ -60,6 +60,5 @@ Create nothing without a yes.
 
 ## Scheduling (optional)
 If the user wants it automatic: suggest a weekday-morning daily stand-up and a Sunday-evening (or Friday
-afternoon) weekly run, using whatever scheduling the app offers (scheduled tasks in the Claude app or
-Cowork, `/schedule` in Claude Code). A scheduled run defaults to **sync** mode and produces the output
+afternoon) weekly run, using whatever scheduling the host offers (see `references/_shared/hosts.md`). A scheduled run defaults to **sync** mode and produces the output
 only. It never creates events or tasks without the user being present to confirm.

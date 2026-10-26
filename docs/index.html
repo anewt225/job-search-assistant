@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Job Search Assistant for Claude</title>
-<meta name="description" content="A modular Claude job-search assistant. Pick modules, answer a short setup quiz, download your profile.">
+<title>Job Search Assistant</title>
+<meta name="description" content="A modular job-search assistant for Claude, ChatGPT, Codex and any app that reads Agent Skills. Pick your app, answer a short setup quiz, download your profile.">
 <style>
 :root{
   --bg:#f8fafc;--surface:#ffffff;--surface-2:#f1f5f9;--border:#e2e8f0;
@@ -75,63 +75,75 @@ details{background:var(--surface);border:1px solid var(--border);border-radius:v
 summary{cursor:pointer;font-weight:600}
 footer{padding:32px 0 56px;color:var(--faint);font-size:.9rem;border-top:1px solid var(--border)}
 .themebtn{position:absolute;top:16px;right:16px}
+.hosts{color:var(--muted);font-size:.95rem;margin:.2em 0 0}
+.stepnum{display:inline-grid;place-items:center;width:1.6em;height:1.6em;margin-right:.35em;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:.85em;vertical-align:.08em}
+.qcount{color:var(--faint);font-size:.85rem;margin:0 0 6px}
+.next-steps{margin:0 0 14px;padding-left:1.2em;color:var(--muted)}
+.next-steps li{margin:4px 0}
 </style>
 </head>
 <body>
 <button class="btn themebtn" id="themeBtn" aria-label="Toggle colour theme">◐</button>
 <div class="wrap">
 <header>
-  <div class="eyebrow">Claude skills · free · open source</div>
-  <h1>A job-search assistant that runs in your own Claude.</h1>
+  <div class="eyebrow">Agent Skills · free · open source</div>
+  <h1>A job-search assistant that runs in the AI you already use.</h1>
   <p class="lede">Eight small skills that cover the whole search, from figuring out what to target to negotiating the offer. Each one is built on proven playbooks (<em>The 2-Hour Job Search</em>, <em>Never Search Alone</em>, <em>Reverse the Search</em>, <em>Linked</em>, <em>The Job Closer</em>), wired to whatever tools you already use, and tuned to the kind of coach you want.</p>
+  <p class="hosts">Works in <strong>Claude</strong> · <strong>ChatGPT</strong> · <strong>Codex</strong> · <strong>Claude Code</strong> · any app that reads <a href="https://agentskills.io">Agent Skills</a></p>
   <div class="row">
-    <a class="btn primary" href="#wizard">Start the 3-minute setup</a>
+    <a class="btn primary" href="#install">Get started</a>
     <a class="btn" href="#modules">Browse modules</a>
     <a class="btn" href="https://github.com/anewt225/job-search-assistant">View on GitHub</a>
   </div>
 </header>
 
 <section id="how">
-  <h2>How it works</h2>
+  <h2>Three steps, about five minutes</h2>
   <ol class="steps">
-    <li><strong>Pick modules.</strong> Download one zip, or all of them. Each one works on its own.</li>
-    <li><strong>Install.</strong> In Claude, go to Settings → Capabilities → Skills → Upload skill (or use the Claude Code plugin).</li>
-    <li><strong>Set up.</strong> Run the wizard below, or just tell Claude "set up my job search". Either way you get a <code>job-search-profile.md</code> that every module reads.</li>
+    <li><strong>Install</strong> in your AI app. Pick it below for the exact steps.</li>
+    <li><strong>Set up</strong> with the wizard (3 minutes), or just say "set up my job search". Either way you get one small <code>job-search-profile.md</code> that every module reads.</li>
     <li><strong>Use it.</strong> "Draft outreach to…", "Prep me for my interview with…", "Score my LinkedIn for…"</li>
   </ol>
 </section>
 
-<section id="modules">
-  <h2>Modules</h2>
-  <p class="lede" style="font-size:1rem">Not sure where to start? Install <strong>Setup</strong> plus the one module for where you are right now.</p>
-  <div class="grid" id="moduleGrid"></div>
-  <div class="row"><a class="btn primary" href="https://github.com/anewt225/job-search-assistant/releases/latest/download/job-search-assistant-all.zip">Download all 8 (one zip)</a></div>
-</section>
-
 <section id="install">
-  <h2>Install</h2>
-  <div class="tabs" role="tablist">
-    <button class="tab" role="tab" aria-selected="true" data-tab="app">Claude app / claude.ai</button>
-    <button class="tab" role="tab" aria-selected="false" data-tab="code">Claude Code</button>
-  </div>
-  <div class="panel" data-panel="app">
+  <h2><span class="stepnum">1</span> Install</h2>
+  <p class="q-help">Which app do you use?</p>
+  <div class="tabs" role="tablist" aria-label="Your AI app" id="hostTabs"></div>
+  <div class="panel" data-panel="claude">
     <ol>
       <li>Settings → <strong>Capabilities</strong> → turn on <em>Code execution and file creation</em>.</li>
-      <li>Settings → Capabilities → <strong>Skills</strong> → <em>Upload skill</em> → choose a module's <code>.zip</code>. Don't unzip it first.</li>
-      <li>Create a <strong>Project</strong> called "Job Search" and add your <code>job-search-profile.md</code> to its knowledge.</li>
+      <li>Settings → Capabilities → <strong>Skills</strong> → <em>Upload skill</em> → choose a module's <code>.zip</code> (<a href="#modules">pick modules</a>). Don't unzip it first.</li>
+      <li>Create a <strong>Project</strong> called "Job Search". You'll add your profile to its knowledge in step 2.</li>
       <li>Optional: Settings → <strong>Connectors</strong> → connect Gmail/Outlook, Calendar, Drive, Notion and so on.</li>
     </ol>
+  </div>
+  <div class="panel" data-panel="chatgpt" hidden>
+    <ol>
+      <li>Make sure <strong>Skills</strong> is turned on for your workspace (an admin setting on Business, Enterprise and Edu).</li>
+      <li>Upload a module's <code>.zip</code> from the Skills page (<a href="#modules">pick modules</a>). Or install the <em>Job Search Assistant</em> plugin in the ChatGPT desktop app, after adding it with <code>codex plugin marketplace add anewt225/job-search-assistant</code>.</li>
+      <li>Create a <strong>Project</strong> called "Job Search". You'll add your profile to its files in step 2.</li>
+      <li>Optional: Settings → <strong>Apps</strong> → connect Gmail/Outlook, Calendar, Drive, Notion and so on.</li>
+    </ol>
+  </div>
+  <div class="panel" data-panel="codex" hidden>
+    <pre class="out">codex plugin marketplace add anewt225/job-search-assistant</pre>
+    <p>Or unzip any module into <code>~/.agents/skills/</code>. Your profile lives at <code>~/.agents/job-search/job-search-profile.md</code>. Connect tools as MCP servers in <code>~/.codex/config.toml</code>.</p>
   </div>
   <div class="panel" data-panel="code" hidden>
     <pre class="out">/plugin marketplace add anewt225/job-search-assistant
 /plugin install job-search-assistant@job-search-assistant</pre>
-    <p>Or unzip any module into <code>~/.claude/skills/</code>. Save your profile to <code>~/.claude/job-search/job-search-profile.md</code>.</p>
+    <p>Or unzip any module into <code>~/.claude/skills/</code>. Your profile lives at <code>~/.claude/job-search/job-search-profile.md</code>.</p>
   </div>
+  <div class="panel" data-panel="other" hidden>
+    <p>Any app that reads <a href="https://agentskills.io">Agent Skills</a> (Cursor, GitHub Copilot, Gemini CLI and others) can use these. Unzip the modules into that app's skills folder (see its docs), and keep <code>job-search-profile.md</code> in your working folder.</p>
+  </div>
+  <div class="row"><a class="btn primary" href="https://github.com/anewt225/job-search-assistant/releases/latest/download/job-search-assistant-all.zip">Download all 8 (one zip)</a><a class="btn" href="#wizard">Next: set up →</a></div>
 </section>
 
 <section id="wizard">
-  <h2>Setup wizard</h2>
-  <p class="lede" style="font-size:1rem">Answer each question with <span class="pill">Quick</span> (copy a proven setup), your own tool, or <em>Skip</em>. Nothing leaves your browser. At the end, download your profile and upload it to your Claude Project. Prefer to talk it through? Skip this and tell Claude "set up my job search".</p>
+  <h2><span class="stepnum">2</span> Set up</h2>
+  <p class="lede" style="font-size:1rem">About 3 minutes. Pick <span class="pill">Quick</span> to copy a proven tool stack in one click, or choose your own tools. Nothing leaves your browser. Prefer to talk it through? Skip this and tell your assistant "set up my job search".</p>
   <div class="wizard" id="wiz" aria-live="polite">
     <div class="progress"><div id="bar"></div></div>
     <div id="stage"></div>
@@ -140,6 +152,13 @@ footer{padding:32px 0 56px;color:var(--faint);font-size:.9rem;border-top:1px sol
       <button class="btn primary" id="next">Next →</button>
     </div>
   </div>
+</section>
+
+<section id="modules">
+  <h2>Modules</h2>
+  <p class="lede" style="font-size:1rem">Not sure where to start? Install <strong>Setup</strong> plus the one module for where you are right now.</p>
+  <div class="grid" id="moduleGrid"></div>
+  <div class="row"><a class="btn primary" href="https://github.com/anewt225/job-search-assistant/releases/latest/download/job-search-assistant-all.zip">Download all 8 (one zip)</a></div>
 </section>
 
 <section id="notion">
@@ -153,13 +172,14 @@ footer{padding:32px 0 56px;color:var(--faint);font-size:.9rem;border-top:1px sol
 
 <section id="faq">
   <h2>FAQ</h2>
-  <details><summary>What does it cost?</summary><p>The skills are free. They run on your Claude plan (Pro or higher for Skills). Connectors and big imports use more of your usage. The Notion template is the cheapest way to set up.</p></details>
+  <details><summary>Which AI apps does it work in?</summary><p>Any app that reads Agent Skills, the open <code>SKILL.md</code> format: Claude, ChatGPT, Codex, Claude Code, and others such as Cursor and GitHub Copilot. The skills never assume which app they're in. App-specific steps live in one table (<a href="https://github.com/anewt225/job-search-assistant/blob/main/shared/hosts.md">hosts.md</a>).</p></details>
+  <details><summary>What does it cost?</summary><p>The skills are free. They run on your existing AI plan (Claude Pro or higher; a ChatGPT workspace with Skills turned on; or Codex). Connectors and big imports use more of your usage. The Notion template is the cheapest way to set up.</p></details>
   <details><summary>Will it send emails for me?</summary><p>No. It only drafts. It never sends messages and never guesses email addresses.</p></details>
   <details><summary>Do I need any connectors?</summary><p>No. Every module falls back to paste or upload. Connectors just save you copy-pasting.</p></details>
-  <details><summary>Where is my data?</summary><p>Only in your own Claude account and your own tools. This page stores nothing on a server; your answers stay in your browser.</p></details>
+  <details><summary>Where is my data?</summary><p>Only in your own AI account and your own tools. This page stores nothing on a server; your answers stay in your browser.</p></details>
 </section>
 
-<footer>Made by <a href="https://github.com/anewt225">Alex Newton</a>. Frameworks credit their authors; buy the books. MIT licensed. Not affiliated with Anthropic.</footer>
+<footer>Made by <a href="https://github.com/anewt225">Alex Newton</a>. Frameworks credit their authors; buy the books. MIT licensed. Not affiliated with Anthropic or OpenAI.</footer>
 </div>
 
 <script>
@@ -177,11 +197,20 @@ const MODULES = [
 document.getElementById("moduleGrid").innerHTML = MODULES.map(([id,t,d,tr]) =>
   `<div class="card"><h3>${t}</h3><p>${d}</p><div class="try">“${tr.replace(/</g,"&lt;")}”</div><a class="btn" href="${REL}${id}.zip">Download .zip</a></div>`).join("");
 
-// tabs
-document.querySelectorAll(".tab").forEach(b => b.addEventListener("click", () => {
-  document.querySelectorAll(".tab").forEach(x => x.setAttribute("aria-selected", x === b));
-  document.querySelectorAll(".panel").forEach(p => p.hidden = p.dataset.panel !== b.dataset.tab);
-}));
+// ---------- host picker (install tabs) ----------
+const HOSTS = [["claude","Claude app / claude.ai","claude"],["chatgpt","ChatGPT","chatgpt"],["codex","Codex","codex"],["code","Claude Code","claude code"],["other","Other","other"]];
+const ans = JSON.parse(localStorageSafe("get") || "{}");
+function localStorageSafe(op, v){ try{ return op==="get" ? localStorage.getItem("jsa-wizard") : localStorage.setItem("jsa-wizard", v);}catch(e){ return null; } }
+function save(){ localStorageSafe("set", JSON.stringify(ans)); }
+function esc(s){ return String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+const hostTabs = document.getElementById("hostTabs");
+hostTabs.innerHTML = HOSTS.map(([id,l]) => `<button class="tab" role="tab" data-tab="${id}">${l}</button>`).join("");
+function setHost(id){
+  ans.host = id; save();
+  hostTabs.querySelectorAll(".tab").forEach(x => x.setAttribute("aria-selected", x.dataset.tab === id));
+  document.querySelectorAll("#install .panel").forEach(p => p.hidden = p.dataset.panel !== id);
+}
+hostTabs.querySelectorAll(".tab").forEach(b => b.addEventListener("click", () => { setHost(b.dataset.tab); if (steps[i].type === "out") render(); }));
 
 // theme toggle
 const root = document.documentElement;
@@ -191,77 +220,98 @@ document.getElementById("themeBtn").onclick = () => {
 };
 
 // ---------- wizard ----------
+const NOTION = "https://alexnewton.notion.site/job-search-assistant-template?source=github_asst";
 const QUICK = {
   email:"gmail", calendar:"google calendar: Career (dedicated job-search calendar)",
   files:"google drive: Job Search/ (Resumes/, Cover Letters/, Applications/<Company>/<Role>/, Networking/<YYYY-MM-DD Event>/, Interview Prep/, Strategy/)",
-  tasks:"ticktick: Job Search (flat tasks)", notes:"fireflies", store:"notion (duplicate the template)",
-  format:"md", persona:"accountability-partner"
+  tasks:"ticktick: Job Search (flat tasks)", notes:"fireflies", store:"notion (duplicate the template)"
 };
+const NONE = {email:"none", calendar:"none", files:"none", tasks:"none", notes:"upload", store:"csv folder"};
 const PERSONAS = {
+  "accountability-partner":"Accountability Partner: metric-first, closes open loops (recommended)",
   "coach":"Coach: asks before telling, builds skills",
   "strategist":"Strategist: bottom line first, sequencing and trade-offs",
   "mentor":"Mentor: warm, explains the norms and the why",
   "peer":"Peer: casual sounding board",
-  "accountability-partner":"Accountability Partner: metric-first, closes open loops",
   "champion":"Champion: finds and amplifies your evidence"
 };
+// custom:true steps only show when the user chose "Choose each tool".
 const steps = [
-  {id:"me", type:"form", title:"About you", help:"Every module uses this. Leave anything blank that you don't know yet; the discovery module can help with it.",
-   fields:[["name","Name"],["positioning","One-line positioning (e.g. Strategy & Ops | Data | Hospitality Tech)"],["roles","Target roles, ranked (comma-separated)"],["industries","Target industries"],["notTargeting","Not targeting"],["location","Location / remote preference"]]},
   {id:"stage", type:"choice", title:"Where are you in your search?", opts:[["exploring","Exploring: not sure what to target"],["listening tour","Listening tour: testing targets with people"],["actively applying","Actively applying"],["interviewing","Interviewing"],["negotiating","Negotiating an offer"]]},
-  {id:"persona", type:"choice", title:"What kind of assistant do you want?", help:"Not sure? Pick Accountability Partner. You can change it any time, or ask Claude for the 5-question persona quiz.", opts:Object.entries(PERSONAS)},
-  {id:"store", type:"choice", title:"Where should your tracker live?", help:"Companies, contacts, opportunities, meetings and tasks.", opts:[["notion (duplicate the template)","Quick: Notion template (the fastest and cheapest setup)"],["google sheets","Google Sheets (import the CSVs)"],["excel","Excel"],["airtable","Airtable"],["obsidian","Obsidian"],["csv folder","Plain CSV files in a folder"],["import existing","I already have a tracker, so import it"]]},
-  {id:"files", type:"choice", title:"Where do you keep job-search files?", opts:[[QUICK.files,"Quick: Google Drive with the standard folders"],["onedrive: Job Search/","OneDrive"],["dropbox: Job Search/","Dropbox"],["local: ~/Job Search/","A local folder (Claude Code / desktop)"],["claude project","Only inside my Claude Project"]]},
-  {id:"email", type:"choice", title:"Email for outreach, recruiters and interviews?", opts:[["gmail","Quick: Gmail"],["outlook","Outlook"],["none","Skip: I'll paste threads"]]},
-  {id:"calendar", type:"choice", title:"Calendar for availability and job-search events?", opts:[[QUICK.calendar,"Quick: Google Calendar + a dedicated \"Career\" calendar"],["google calendar: primary","Google Calendar (main calendar)"],["outlook","Outlook"],["notion calendar","Notion Calendar"],["none","Skip"]]},
-  {id:"tasks", type:"choice", title:"Where do your to-dos live?", opts:[[QUICK.tasks,"Quick: TickTick"],["todoist","Todoist"],["google tasks","Google Tasks"],["notion: Tasks db","The Notion tracker's Tasks table"],["things","Things"],["none","Skip: list them in chat"]]},
-  {id:"notes", type:"choice", title:"How do you capture calls and interviews?", opts:[["fireflies","Quick: Fireflies"],["granola","Granola"],["otter","Otter"],["google meet / zoom transcripts","Meet or Zoom transcripts"],["notion","Notion AI meeting notes"],["upload","I'll upload or paste notes"],["none","Nothing yet"]]},
+  {id:"me", type:"form", title:"About you", help:"Every module uses this. Leave blanks for anything you don't know yet; the self-discovery module can help.",
+   fields:[["name","Name"],["positioning","One-line positioning (e.g. Strategy & Ops | Data | Hospitality Tech)"],["roles","Target roles, ranked (comma-separated)"],["industries","Target industries"],["notTargeting","Not targeting"],["location","Location / remote preference"]]},
+  {id:"persona", type:"choice", title:"What kind of assistant do you want?", help:"You can change it any time, or ask your assistant for the 5-question persona quiz.", opts:Object.entries(PERSONAS)},
+  {id:"tools", type:"choice", title:"How do you want to connect your tools?", help:"Email, calendar, files, tasks, meeting notes and your tracker. You can change any of them later.", opts:[
+    ["quick","Quick: use the proven stack<small>Gmail · Google Calendar (\"Career\" calendar) · Google Drive · Notion tracker template · TickTick · Fireflies</small>"],
+    ["custom","Choose each tool<small>Six quick questions: Outlook, OneDrive, Sheets, Todoist, Granola and more</small>"],
+    ["none","No tools for now<small>Paste and upload as you go; your tracker starts as CSV files</small>"]]},
+  {id:"store", custom:true, type:"choice", title:"Where should your tracker live?", help:"Companies, contacts, opportunities, meetings and tasks.", opts:[["notion (duplicate the template)","Notion template (fastest and cheapest)"],["google sheets","Google Sheets (import the CSVs)"],["excel","Excel"],["airtable","Airtable"],["obsidian","Obsidian"],["csv folder","Plain CSV files in a folder"],["import existing","I already have a tracker, so import it"]]},
+  {id:"files", custom:true, type:"choice", title:"Where do you keep job-search files?", opts:[[QUICK.files,"Google Drive with the standard folders"],["onedrive: Job Search/","OneDrive"],["dropbox: Job Search/","Dropbox"],["local: ~/Job Search/","A local folder (Codex, Claude Code, desktop apps)"],["ai project files","Only inside my AI project (Claude or ChatGPT)"]]},
+  {id:"email", custom:true, type:"choice", title:"Email for outreach, recruiters and interviews?", opts:[["gmail","Gmail"],["outlook","Outlook"]]},
+  {id:"calendar", custom:true, type:"choice", title:"Calendar for availability and job-search events?", opts:[[QUICK.calendar,"Google Calendar + a dedicated \"Career\" calendar"],["google calendar: primary","Google Calendar (main calendar)"],["outlook","Outlook"],["notion calendar","Notion Calendar"]]},
+  {id:"tasks", custom:true, type:"choice", title:"Where do your to-dos live?", opts:[[QUICK.tasks,"TickTick"],["todoist","Todoist"],["google tasks","Google Tasks"],["notion: Tasks db","The Notion tracker's Tasks table"],["things","Things"]]},
+  {id:"notes", custom:true, type:"choice", title:"How do you capture calls and interviews?", opts:[["fireflies","Fireflies"],["granola","Granola"],["otter","Otter"],["google meet / zoom transcripts","Meet or Zoom transcripts"],["notion","Notion AI meeting notes"],["upload","I'll upload or paste notes"]]},
   {id:"format", type:"choice", title:"Default format for saved documents?", opts:[["md","Markdown (lightest)"],["docx","Word (.docx)"],["google doc","Google Doc"],["pdf","PDF"]]},
-  {id:"rules", type:"form", title:"Rules of the road", help:"These are proven defaults. Change them if they don't fit you.",
+  {id:"rules", type:"form", title:"Rules of the road", help:"Proven defaults. Change them only if they don't fit you.",
    fields:[["convos","Weekly target: live conversations","5"],["apps","Weekly application cap (each with a named human)","5"],["answer","Behavioral answer format (CAR or STAR)","CAR"],["drafts","Max outreach drafts per sitting","3"]]},
   {id:"done", type:"out", title:"Your profile is ready"},
 ];
-const ans = JSON.parse(localStorageSafe("get") || "{}");
 let i = 0;
-function localStorageSafe(op, v){ try{ return op==="get" ? localStorage.getItem("jsa-wizard") : localStorage.setItem("jsa-wizard", v);}catch(e){ return null; } }
-function save(){ localStorageSafe("set", JSON.stringify(ans)); }
-function esc(s){ return String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+setHost(ans.host || "claude");
+const shown = () => steps.filter(s => !s.custom || ans.tools === "custom");
+function go(d){ const list = shown(); const k = list.indexOf(steps[i]); const n = list[Math.max(0, Math.min(list.length-1, k+d))]; i = steps.indexOf(n); render(); }
+
+const NEXT = {
+  claude:["Download the profile.","Open your <strong>Job Search</strong> Project → add the file to the Project's knowledge.","Start a chat in that Project and say: <em>“Read my job-search profile and connect what's missing.”</em>"],
+  chatgpt:["Download the profile.","Open your <strong>Job Search</strong> Project → add the file to the Project's files.","Start a chat in that Project and say: <em>“Read my job-search profile and connect what's missing.”</em>"],
+  codex:["Download the profile.","Save it to <code>~/.agents/job-search/job-search-profile.md</code> (or the folder you work in).","Run Codex and say: <em>“Read my job-search profile and connect what's missing.”</em>"],
+  code:["Download the profile.","Save it to <code>~/.claude/job-search/job-search-profile.md</code>.","Run Claude Code and say: <em>“Read my job-search profile and connect what's missing.”</em>"],
+  other:["Download the profile.","Save it in the folder you work in, or attach it to the chat.","Say: <em>“Read my job-search profile and connect what's missing.”</em>"],
+};
 
 function render(){
-  const s = steps[i], st = document.getElementById("stage");
-  document.getElementById("bar").style.width = (i/(steps.length-1)*100)+"%";
-  document.getElementById("back").style.visibility = i ? "visible" : "hidden";
+  const s = steps[i], st = document.getElementById("stage"), list = shown(), k = list.indexOf(s);
+  document.getElementById("bar").style.width = (k/(list.length-1)*100)+"%";
+  document.getElementById("back").style.visibility = k ? "visible" : "hidden";
   document.getElementById("next").style.display = s.type === "out" ? "none" : "";
-  let h = `<p class="q-title">${s.title}</p>` + (s.help ? `<p class="q-help">${s.help}</p>` : "");
+  document.getElementById("next").textContent = s.type === "form" ? "Continue →" : "Next →";
+  let h = (s.type === "out" ? "" : `<p class="qcount">Question ${k+1} of ${list.length-1}</p>`) +
+    `<p class="q-title">${s.title}</p>` + (s.help ? `<p class="q-help">${s.help}</p>` : "");
   if (s.type === "choice") {
     h += `<div class="opts">` + s.opts.map(([v,l]) =>
-      `<button class="opt" data-v="${esc(v)}" aria-pressed="${ans[s.id]===v}">${esc(l)}</button>`).join("") +
-      (["me","stage","persona","rules","format"].includes(s.id) ? "" : `<button class="opt" data-v="none" aria-pressed="${ans[s.id]==="none"}">Skip for now<small>Features that need this stay off until you add it.</small></button>`) + `</div>`;
+      `<button class="opt" data-v="${esc(v)}" aria-pressed="${ans[s.id]===v}">${l.includes("<small>") ? l : esc(l)}</button>`).join("") +
+      (s.custom ? `<button class="opt" data-v="none" aria-pressed="${ans[s.id]==="none"}">Skip for now<small>Features that need this stay off until you add it.</small></button>` : "") + `</div>`;
   } else if (s.type === "form") {
     h += s.fields.map(([k,l,d]) => `<div class="field"><label for="f-${k}">${l}</label><input type="text" id="f-${k}" data-k="${k}" value="${esc(ans[k] ?? d ?? "")}"></div>`).join("");
   } else {
-    const md = profile();
-    h += `<p class="q-help">Download it, then add it to your Claude Project's knowledge (or, in Claude Code, save it to <code>~/.claude/job-search/</code>). Next, tell Claude: <em>“Read my job-search profile and connect what's missing.”</em></p>
+    const host = ans.host || "claude", store = tool("store");
+    const extra = store.startsWith("notion") ? `<li><a href="${NOTION}" target="_blank" rel="noopener">Duplicate the Notion tracker template</a>, then share it with your assistant's Notion connection.</li>`
+      : store === "import existing" ? `<li>Then say <em>“import my tracker”</em> and attach or link it.</li>` : "";
+    h += `<p class="q-help">Next steps for <select id="hostSel" aria-label="Your AI app">${HOSTS.map(([id,l]) => `<option value="${id}"${id===host?" selected":""}>${l}</option>`).join("")}</select></p>
+      <ol class="next-steps">${NEXT[host].map(x => `<li>${x}</li>`).join("")}${extra}</ol>
       <div class="row"><button class="btn primary" id="dl">Download job-search-profile.md</button><button class="btn" id="cp">Copy</button><button class="btn" id="restart">Start over</button></div>
-      <pre class="out" id="md">${esc(md)}</pre>`;
+      <details><summary>Preview the file</summary><pre class="out" id="md">${esc(profile())}</pre></details>`;
   }
   st.innerHTML = h;
-  st.querySelectorAll(".opt").forEach(b => b.onclick = () => { ans[s.id] = b.dataset.v; save(); i++; render(); });
+  st.querySelectorAll(".opt").forEach(b => b.onclick = () => { ans[s.id] = b.dataset.v; save(); go(1); });
   st.querySelectorAll("input[data-k]").forEach(inp => inp.oninput = () => { ans[inp.dataset.k] = inp.value; save(); });
   if (s.type === "out") {
+    document.getElementById("hostSel").onchange = e => { setHost(e.target.value); render(); };
     document.getElementById("dl").onclick = () => { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([profile()],{type:"text/markdown"})); a.download = "job-search-profile.md"; a.click(); };
-    document.getElementById("cp").onclick = async e => { try { await navigator.clipboard.writeText(profile()); e.target.textContent = "Copied ✓"; } catch { e.target.textContent = "Select the text below"; } };
-    document.getElementById("restart").onclick = () => { for (const k in ans) delete ans[k]; save(); i = 0; render(); };
+    document.getElementById("cp").onclick = async e => { try { await navigator.clipboard.writeText(profile()); e.target.textContent = "Copied ✓"; } catch { e.target.textContent = "Open the preview and copy"; } };
+    document.getElementById("restart").onclick = () => { const host = ans.host; for (const k in ans) delete ans[k]; ans.host = host; save(); i = 0; render(); };
   }
-  const first = st.querySelector("input,.opt"); if (first && i) first.focus({preventScroll:true});
+  const first = st.querySelector("input,.opt"); if (first && k) first.focus({preventScroll:true});
 }
-document.getElementById("next").onclick = () => { if (i < steps.length-1) { i++; render(); } };
-document.getElementById("back").onclick = () => { if (i) { i--; render(); } };
+document.getElementById("next").onclick = () => go(1);
+document.getElementById("back").onclick = () => go(-1);
 
 function v(k, d="") { const x = ans[k]; return x === undefined || x === "" ? d : x; }
+function tool(k) { return ans.tools === "quick" ? QUICK[k] : ans.tools === "custom" ? v(k, "none") : NONE[k]; }
 function profile(){
   const today = new Date().toISOString().slice(0,10);
-  const store = v("store","none");
+  const store = tool("store");
+  const host = (HOSTS.find(h => h[0] === (ans.host || "claude")) || HOSTS[0])[2];
   return `# Job Search Profile
 <!-- Generated by the setup wizard. Every job-search module reads this file first. Edit freely, or say "update my job search profile". -->
 
@@ -293,17 +343,18 @@ last_updated: ${today}
 - check-in cadence: weekly
 
 ## 4. Connectors & locations
-- email: ${v("email","none")}
-- calendar: ${v("calendar","none")}
-- files root: ${v("files","none")}
+- host app: ${host}
+- email: ${tool("email")}
+- calendar: ${tool("calendar")}
+- files root: ${tool("files")}
   - resumes: Resumes/
   - cover letters: Cover Letters/
   - applications (per company/role): Applications/<Company>/<Role>/
   - networking (event briefs, contact lists): Networking/<YYYY-MM-DD Event>/
   - interview prep: Interview Prep/
   - strategy (profile, two-pager, goals): Strategy/
-- tasks: ${v("tasks","none")}
-- meeting notes / recordings: ${v("notes","none")}
+- tasks: ${tool("tasks")}
+- meeting notes / recordings: ${tool("notes")}
 - contact enrichment (optional): none
 - reading highlights (optional): none
 
@@ -315,7 +366,7 @@ last_updated: ${today}
 - meetings:
 - tasks:
 - field-name overrides:
-${store.startsWith("notion") ? "<!-- After duplicating the Notion template and sharing it with the Notion connector, ask Claude to fill in the 5 database IDs. -->\n" : store === "import existing" ? "<!-- Ask Claude: \"import my tracker\". It will map your columns to the 5-table schema. -->\n" : ""}
+${store.startsWith("notion") ? "<!-- After duplicating the Notion template and sharing it with your assistant's Notion connection, ask it to fill in the 5 database IDs. -->\n" : store === "import existing" ? "<!-- Say: \"import my tracker\". The assistant maps your columns to the 5-table schema. -->\n" : ""}
 ## 6. Source documents
 - master resume:
 - other resumes / cover letters:
@@ -323,7 +374,7 @@ ${store.startsWith("notion") ? "<!-- After duplicating the Notion template and s
 - book notes / methodology (optional):
 - default save format: ${v("format","md")}
 
-## 7. Notes for Claude
+## 7. Notes for the assistant
 `;
 }
 render();

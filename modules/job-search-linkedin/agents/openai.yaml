@@ -1,0 +1,8 @@
+# OpenAI (ChatGPT / Codex) display metadata. Other hosts ignore this file.
+interface:
+  display_name: "Job Search: LinkedIn"
+  short_description: "Score, rewrite and re-check a LinkedIn profile"
+  default_prompt: "Score my LinkedIn for <target role>"
+  brand_color: "#C2410C"
+policy:
+  allow_implicit_invocation: true

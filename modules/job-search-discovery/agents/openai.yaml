@@ -1,0 +1,8 @@
+# OpenAI (ChatGPT / Codex) display metadata. Other hosts ignore this file.
+interface:
+  display_name: "Job Search: Self-Discovery"
+  short_description: "Quiz to strengths, target roles and a two-pager"
+  default_prompt: "Help me figure out what roles fit me"
+  brand_color: "#C2410C"
+policy:
+  allow_implicit_invocation: true
