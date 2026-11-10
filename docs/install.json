@@ -1,0 +1,49 @@
+{
+  "name": "job-search-assistant",
+  "repository": "https://github.com/anewt225/job-search-assistant",
+  "branch": "main",
+  "skills_path": "plugin/skills",
+  "skills": [
+    "job-search-discovery",
+    "job-search-interview",
+    "job-search-linkedin",
+    "job-search-negotiation",
+    "job-search-networking",
+    "job-search-resume",
+    "job-search-rhythm",
+    "job-search-setup"
+  ],
+  "install": "Copy every folder in skills_path into the host's skills_dir. Create the folder if needed. Replace older copies of the same folders and touch nothing else.",
+  "hosts": {
+    "claude-code": {
+      "skills_dir": "~/.claude/skills",
+      "native": [
+        "/plugin marketplace add anewt225/job-search-assistant",
+        "/plugin install job-search-assistant@job-search-assistant"
+      ]
+    },
+    "codex": {
+      "skills_dir": "~/.agents/skills",
+      "native": ["codex plugin marketplace add anewt225/job-search-assistant"]
+    },
+    "antigravity": {
+      "skills_dir": "~/.gemini/config/skills",
+      "workspace_skills_dir": ".agents/skills"
+    },
+    "gemini-cli": {
+      "skills_dir": "~/.gemini/skills",
+      "workspace_skills_dir": ".gemini/skills"
+    }
+  },
+  "chat_apps": {
+    "hosts": ["claude", "chatgpt", "gemini", "grok"],
+    "upload": "https://github.com/anewt225/job-search-assistant/releases/latest/download/job-search-assistant.zip",
+    "note": "Chat apps install by uploading one zip in their settings. A prompt cannot install a skill there."
+  },
+  "after_install": {
+    "restart_session": true,
+    "say": "Set up my job search",
+    "urgent": "I have an interview today with <company>"
+  },
+  "requires": { "connections": "none", "network_at_runtime": false }
+}

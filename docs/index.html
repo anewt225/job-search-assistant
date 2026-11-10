@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Job Search Assistant</title>
-<meta name="description" content="A modular job-search assistant for Claude, ChatGPT, Gemini, Grok, Codex and any app that reads Agent Skills. Pick your app, answer a short setup quiz, download your profile.">
+<meta name="description" content="A modular job-search assistant for Claude, ChatGPT, Gemini, Grok, Codex and any app that reads Agent Skills. Pick your app, install in one step, and say what you need.">
 <style>
 :root{
   --bg:#f8fafc;--surface:#ffffff;--surface-2:#f1f5f9;--border:#e2e8f0;
@@ -74,7 +74,20 @@ th{color:var(--muted);font-weight:600}
 details{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;margin-top:10px}
 summary{cursor:pointer;font-weight:600}
 footer{padding:32px 0 56px;color:var(--faint);font-size:.9rem;border-top:1px solid var(--border)}
-.themebtn{position:absolute;top:16px;right:16px}
+.topbar{position:absolute;top:16px;right:16px;display:flex;align-items:center;gap:14px}
+@media (max-width:480px){header{padding-top:72px}}
+.toplink{color:var(--muted);font-weight:600;text-decoration:none}
+.toplink:hover{color:var(--text);text-decoration:underline}
+.toplink:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:4px}
+.action{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:14px 0 0}
+.action .q-help{margin:0}
+.say{background:var(--surface);border:1px solid var(--accent);border-radius:var(--radius);padding:16px;margin-top:24px}
+.say p{margin:0 0 10px}
+.saylist{list-style:none;padding:0;margin:0 0 12px;display:grid;gap:8px}
+.saylist li{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;background:var(--surface-2);border-radius:10px;padding:8px 10px}
+.saylist .when{flex:0 0 8.5em;color:var(--muted);font-size:.9rem;font-weight:600}
+.saylist .msg{flex:1 1 14em;font-family:var(--mono);font-size:.9rem}
+.saylist .btn{font-size:.85rem;padding:.35em .8em}
 .hosts{color:var(--muted);font-size:.95rem;margin:.2em 0 0}
 .stepnum{display:inline-grid;place-items:center;width:1.6em;height:1.6em;margin-right:.35em;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:.85em;vertical-align:.08em}
 .qcount{color:var(--faint);font-size:.85rem;margin:0 0 6px}
@@ -83,7 +96,7 @@ footer{padding:32px 0 56px;color:var(--faint);font-size:.9rem;border-top:1px sol
 </style>
 </head>
 <body>
-<button class="btn themebtn" id="themeBtn" aria-label="Toggle colour theme">◐</button>
+<div class="topbar"><a class="toplink" href="https://github.com/anewt225/job-search-assistant">GitHub</a><button class="btn" id="themeBtn" aria-label="Toggle colour theme">◐</button></div>
 <div class="wrap">
 <header>
   <div class="eyebrow">Agent Skills · free · open source</div>
@@ -92,8 +105,6 @@ footer{padding:32px 0 56px;color:var(--faint);font-size:.9rem;border-top:1px sol
   <p class="hosts">Works in <strong>Claude</strong> · <strong>ChatGPT</strong> · <strong>Gemini</strong> · <strong>Grok</strong> · <strong>Codex</strong> · <strong>Claude Code</strong> · <strong>Antigravity</strong> · any app that reads <a href="https://agentskills.io">Agent Skills</a></p>
   <div class="row">
     <a class="btn primary" href="#install">Get started</a>
-    <a class="btn" href="#modules">Browse modules</a>
-    <a class="btn" href="https://github.com/anewt225/job-search-assistant">View on GitHub</a>
   </div>
 </header>
 
@@ -101,7 +112,7 @@ footer{padding:32px 0 56px;color:var(--faint);font-size:.9rem;border-top:1px sol
   <h2>Three steps, about five minutes</h2>
   <ol class="steps">
     <li><strong>Install</strong> in your AI app. Pick it below for the exact steps.</li>
-    <li><strong>Set up</strong> with the wizard (3 minutes), or just say "set up my job search". Either way you get one small <code>job-search-profile.md</code> that every module reads.</li>
+    <li><strong>Set up</strong> by saying "set up my job search": 5 short steps, one question at a time (or use the optional wizard below). Either way you get one small <code>job-search-profile.md</code> that every module reads. In a hurry? Skip it and ask for what you need.</li>
     <li><strong>Use it.</strong> "Draft outreach to…", "Prep me for my interview with…", "Score my LinkedIn for…"</li>
   </ol>
 </section>
@@ -112,52 +123,90 @@ footer{padding:32px 0 56px;color:var(--faint);font-size:.9rem;border-top:1px sol
   <div class="tabs" role="tablist" aria-label="Your AI app" id="hostTabs"></div>
   <div class="panel" data-panel="claude">
     <ol>
+      <li>Download the zip below. Don't unzip it.</li>
       <li>Settings → <strong>Capabilities</strong> → turn on <em>Code execution and file creation</em>.</li>
-      <li>Settings → Capabilities → <strong>Skills</strong> → <em>Upload skill</em> → choose a module's <code>.zip</code> (<a href="#modules">pick modules</a>). Don't unzip it first.</li>
-      <li>Create a <strong>Project</strong> called "Job Search". You'll add your profile to its knowledge in step 2.</li>
-      <li>Optional: Settings → <strong>Connectors</strong> → connect Gmail/Outlook, Calendar, Drive, Notion and so on.</li>
+      <li>Settings → <strong>Customize</strong> → <strong>Skills</strong> → <em>Add</em> → <em>Upload a skill</em> → choose <code>job-search-assistant.zip</code>.</li>
     </ol>
+    <p class="q-help">That's the whole install. A Project called "Job Search" keeps your chats together, and Connectors (Gmail, Calendar, Drive, Notion) are optional and can wait.</p>
+    <p class="action"><a class="btn primary" href="https://github.com/anewt225/job-search-assistant/releases/latest/download/job-search-assistant.zip">Download job-search-assistant.zip</a> <span class="q-help">One zip, every module. Don't unzip it.</span></p>
   </div>
   <div class="panel" data-panel="chatgpt" hidden>
     <ol>
+      <li>Download the zip below. Don't unzip it.</li>
       <li>Make sure <strong>Skills</strong> is turned on for your workspace (an admin setting on Business, Enterprise and Edu).</li>
-      <li>Upload a module's <code>.zip</code> from the Skills page (<a href="#modules">pick modules</a>). Or install the <em>Job Search Assistant</em> plugin in the ChatGPT desktop app, after adding it with <code>codex plugin marketplace add anewt225/job-search-assistant</code>.</li>
-      <li>Create a <strong>Project</strong> called "Job Search". You'll add your profile to its files in step 2.</li>
-      <li>Optional: Settings → <strong>Apps</strong> → connect Gmail/Outlook, Calendar, Drive, Notion and so on.</li>
+      <li>Upload <code>job-search-assistant.zip</code> from the Skills page.</li>
     </ol>
+    <p class="q-help">That's the whole install. A Project called "Job Search" keeps your chats together, and Apps (Gmail, Calendar, Drive, Notion) are optional and can wait. On the ChatGPT desktop app you can install the <em>Job Search Assistant</em> plugin instead, after <code>codex plugin marketplace add anewt225/job-search-assistant</code>.</p>
+    <p class="action"><a class="btn primary" href="https://github.com/anewt225/job-search-assistant/releases/latest/download/job-search-assistant.zip">Download job-search-assistant.zip</a> <span class="q-help">One zip, every module. Don't unzip it.</span></p>
   </div>
   <div class="panel" data-panel="gemini" hidden>
     <ol>
+      <li>Download the zip below. Don't unzip it.</li>
       <li>Use a personal Google account (work and school accounts can't use skills yet). Skills need <em>Keep Activity</em> turned on, which means Google keeps your Gemini chats. Check Gemini's activity settings if that matters to you.</li>
-      <li>On the web or Mac app: Settings → <strong>Skills</strong> → <em>Upload</em> → choose a module's <code>.zip</code> (<a href="#modules">pick modules</a>). Don't unzip it.</li>
-      <li>Gemini has no projects, so keep your profile from step 2 and attach it at the start of a job-search chat. Type <code>/</code> to pick a skill.</li>
-      <li>Optional: Settings → <strong>Apps</strong> → turn on Gmail, Calendar, Drive and Tasks.</li>
+      <li>On the web or Mac app: Settings → <strong>Skills</strong> → <em>Upload</em> → choose <code>job-search-assistant.zip</code>. Type <code>/</code> in a chat to pick it.</li>
     </ol>
-    <p class="q-help">Using a Gem? Gems are being replaced by skills (personal accounts from November 2026), so upload the skills instead.</p>
+    <p class="q-help">That's the whole install. Turning on Gmail, Calendar, Drive and Tasks under Settings → Apps is optional and can wait. Using a Gem? Gems are being replaced by skills (personal accounts from November 2026), so upload the skill instead.</p>
+    <p class="action"><a class="btn primary" href="https://github.com/anewt225/job-search-assistant/releases/latest/download/job-search-assistant.zip">Download job-search-assistant.zip</a> <span class="q-help">One zip, every module. Don't unzip it.</span></p>
   </div>
   <div class="panel" data-panel="grok" hidden>
     <ol>
-      <li>Open <strong>Skills</strong> on grok.com or in the app → upload a module's <code>.zip</code> (<a href="#modules">pick modules</a>).</li>
-      <li>Create a <strong>Project</strong> called "Job Search". You'll add your profile to its files in step 2.</li>
-      <li>Optional: connect Gmail, Drive and other tools under <strong>Connectors</strong>, where available.</li>
+      <li>Download the zip below. Don't unzip it.</li>
+      <li>Open <strong>Skills</strong> on grok.com or in the app → upload <code>job-search-assistant.zip</code>.</li>
     </ol>
+    <p class="q-help">That's the whole install. A Project called "Job Search" keeps your chats together, and Connectors are optional and can wait.</p>
+    <p class="action"><a class="btn primary" href="https://github.com/anewt225/job-search-assistant/releases/latest/download/job-search-assistant.zip">Download job-search-assistant.zip</a> <span class="q-help">One zip, every module. Don't unzip it.</span></p>
   </div>
   <div class="panel" data-panel="codex" hidden>
-    <pre class="out">codex plugin marketplace add anewt225/job-search-assistant</pre>
-    <p>Or unzip any module into <code>~/.agents/skills/</code>. Your profile lives at <code>~/.agents/job-search/job-search-profile.md</code>. Connect tools as MCP servers in <code>~/.codex/config.toml</code>.</p>
+    <p>Paste this into Codex. It installs the eight skills into <code>~/.agents/skills/</code>.</p>
+    <pre class="out" id="prompt-codex">Install the Job Search Assistant skills for me.
+1. Get https://github.com/anewt225/job-search-assistant (git clone --depth 1 into a temporary folder, or download the main branch).
+2. Copy every folder inside its plugin/skills/ directory into ~/.agents/skills/ (create it if it doesn't exist). Replace older copies of the same job-search-* folders and touch nothing else.
+3. Delete the temporary folder.
+4. List the skills you installed, then tell me to start a new session and say: Set up my job search</pre>
+    <p class="action"><button class="btn primary" data-copy="prompt-codex">Copy the install prompt</button></p>
+    <p class="q-help">Prefer the plugin? Run <code>codex plugin marketplace add anewt225/job-search-assistant</code>. Your profile lives at <code>~/.agents/job-search/job-search-profile.md</code>. MCP servers in <code>~/.codex/config.toml</code> are optional.</p>
   </div>
   <div class="panel" data-panel="code" hidden>
-    <pre class="out">/plugin marketplace add anewt225/job-search-assistant
-/plugin install job-search-assistant@job-search-assistant</pre>
-    <p>Or unzip any module into <code>~/.claude/skills/</code>. Your profile lives at <code>~/.claude/job-search/job-search-profile.md</code>.</p>
+    <p>Paste this into Claude Code (the terminal or the Code tab). It installs the eight skills into <code>~/.claude/skills/</code>.</p>
+    <pre class="out" id="prompt-code">Install the Job Search Assistant skills for me.
+1. Get https://github.com/anewt225/job-search-assistant (git clone --depth 1 into a temporary folder, or download the main branch).
+2. Copy every folder inside its plugin/skills/ directory into ~/.claude/skills/ (create it if it doesn't exist). Replace older copies of the same job-search-* folders and touch nothing else.
+3. Delete the temporary folder.
+4. List the skills you installed, then tell me to start a new session and say: Set up my job search</pre>
+    <p class="action"><button class="btn primary" data-copy="prompt-code">Copy the install prompt</button></p>
+    <p class="q-help">Prefer the plugin? Type <code>/plugin marketplace add anewt225/job-search-assistant</code>, then <code>/plugin install job-search-assistant@job-search-assistant</code>. Your profile lives at <code>~/.claude/job-search/job-search-profile.md</code>.</p>
   </div>
   <div class="panel" data-panel="antigravity" hidden>
-    <p>Unzip the modules into <code>~/.gemini/config/skills/</code> (every workspace) or <code>&lt;workspace&gt;/.agents/skills/</code> (one workspace). Works in the IDE and the <code>agy</code> CLI. Keep your profile at <code>~/.agents/job-search/job-search-profile.md</code>, and connect tools as MCP servers.</p>
+    <p>Paste this into Antigravity (the IDE or the <code>agy</code> CLI). It installs the eight skills into <code>~/.gemini/config/skills/</code>, for every workspace.</p>
+    <pre class="out" id="prompt-antigravity">Install the Job Search Assistant skills for me.
+1. Get https://github.com/anewt225/job-search-assistant (git clone --depth 1 into a temporary folder, or download the main branch).
+2. Copy every folder inside its plugin/skills/ directory into ~/.gemini/config/skills/ (create it if it doesn't exist). Replace older copies of the same job-search-* folders and touch nothing else.
+3. Delete the temporary folder.
+4. List the skills you installed, then tell me to start a new session and say: Set up my job search</pre>
+    <p class="action"><button class="btn primary" data-copy="prompt-antigravity">Copy the install prompt</button></p>
+    <p class="q-help">For one workspace only, change the folder to <code>&lt;workspace&gt;/.agents/skills/</code>. Keep your profile at <code>~/.agents/job-search/job-search-profile.md</code>. MCP servers are optional.</p>
   </div>
   <div class="panel" data-panel="other" hidden>
-    <p>Any app that reads <a href="https://agentskills.io">Agent Skills</a> (GitHub Copilot, Cursor, Gemini CLI, Muse Code, Perplexity Computer and others) can use these. Many read <code>.agents/skills/</code>. Unzip the modules into that app's skills folder (see its docs), and keep <code>job-search-profile.md</code> in your working folder.</p>
+    <p>Any app that reads <a href="https://agentskills.io">Agent Skills</a> can use these (Gemini CLI, GitHub Copilot, Cursor, Muse Code, Perplexity Computer and others). If your app can run commands, paste this. The folder shown is Gemini CLI's; swap in your app's skills folder (many read <code>.agents/skills/</code>).</p>
+    <pre class="out" id="prompt-other">Install the Job Search Assistant skills for me.
+1. Get https://github.com/anewt225/job-search-assistant (git clone --depth 1 into a temporary folder, or download the main branch).
+2. Copy every folder inside its plugin/skills/ directory into ~/.gemini/skills/ (create it if it doesn't exist). Replace older copies of the same job-search-* folders and touch nothing else.
+3. Delete the temporary folder.
+4. List the skills you installed, then tell me to start a new session and say: Set up my job search</pre>
+    <p class="action"><button class="btn primary" data-copy="prompt-other">Copy the install prompt</button></p>
+    <p class="q-help">No command line? <a href="https://github.com/anewt225/job-search-assistant/releases/latest/download/job-search-assistant-all.zip">Download all eight as separate skill folders</a> and unzip them into your app's skills folder. Keep <code>job-search-profile.md</code> in your working folder.</p>
   </div>
-  <div class="row"><a class="btn primary" href="https://github.com/anewt225/job-search-assistant/releases/latest/download/job-search-assistant-all.zip">Download all 8 (one zip)</a><a class="btn" href="#wizard">Next: set up →</a></div>
+
+  <div class="say" id="say">
+    <h3>Installed? Now say this</h3>
+    <p>Start a new chat and type <code>/</code> to see the skills. Then send one of these:</p>
+    <ul class="saylist">
+      <li><span class="when">Just starting</span><span class="msg" id="say-1">Set up my job search</span><button class="btn" data-copy="say-1" aria-label="Copy: Set up my job search">Copy</button></li>
+      <li><span class="when">Applying now</span><span class="msg" id="say-2">Tailor my resume for this posting: ___</span><button class="btn" data-copy="say-2" aria-label="Copy: Tailor my resume for this posting">Copy</button></li>
+      <li><span class="when">Interview soon</span><span class="msg" id="say-3">I have an interview today with ___</span><button class="btn" data-copy="say-3" aria-label="Copy: I have an interview today with">Copy</button></li>
+    </ul>
+    <p class="q-help" style="margin:0">Setup is optional: 5 short steps, about 5 minutes, and it starts by telling you what it will ask. No email or calendar connection is needed. An interview today skips setup and preps you first. Prefer a form? <a href="#wizard">Build your profile in the browser</a>.</p>
+  </div>
 </section>
 
 <section id="wizard">
@@ -175,9 +224,9 @@ footer{padding:32px 0 56px;color:var(--faint);font-size:.9rem;border-top:1px sol
 
 <section id="modules">
   <h2>Modules</h2>
-  <p class="lede" style="font-size:1rem">Not sure where to start? Install <strong>Setup</strong> plus the one module for where you are right now.</p>
+  <p class="lede" style="font-size:1rem">The one-zip download above already includes all eight. These single-module zips are the advanced option: for a skills folder, or when you only want one.</p>
   <div class="grid" id="moduleGrid"></div>
-  <div class="row"><a class="btn primary" href="https://github.com/anewt225/job-search-assistant/releases/latest/download/job-search-assistant-all.zip">Download all 8 (one zip)</a></div>
+  <div class="row"><a class="btn" href="https://github.com/anewt225/job-search-assistant/releases/latest/download/job-search-assistant-all.zip">Download all 8 as separate skills</a></div>
 </section>
 
 <section id="notion">
@@ -198,7 +247,7 @@ footer{padding:32px 0 56px;color:var(--faint);font-size:.9rem;border-top:1px sol
   <details><summary>Where is my data?</summary><p>Only in your own AI account and your own tools. This page stores nothing on a server; your answers stay in your browser.</p></details>
 </section>
 
-<footer>Made by <a href="https://github.com/anewt225">Alex Newton</a>. Frameworks credit their authors; buy the books. MIT licensed. Not affiliated with Anthropic, OpenAI, Google or xAI.</footer>
+<footer><a href="https://github.com/anewt225/job-search-assistant">Source on GitHub</a>. Made by <a href="https://github.com/anewt225">Alex Newton</a>. Frameworks credit their authors; buy the books. MIT licensed. Not affiliated with Anthropic, OpenAI, Google or xAI.</footer>
 </div>
 
 <script>
@@ -237,6 +286,14 @@ document.getElementById("themeBtn").onclick = () => {
   const dark = root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
   root.dataset.theme = dark ? "light" : "dark";
 };
+
+// copy buttons (install prompts and first messages)
+document.querySelectorAll("[data-copy]").forEach(b => b.addEventListener("click", async () => {
+  const el = document.getElementById(b.dataset.copy), label = b.textContent;
+  try { await navigator.clipboard.writeText(el.textContent.trim()); b.textContent = "Copied ✓"; }
+  catch { const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = "Selected: press Ctrl/Cmd+C"; }
+  setTimeout(() => { b.textContent = label; }, 2500);
+}));
 
 // ---------- wizard ----------
 const NOTION = "https://alexnewton.notion.site/job-search-assistant-template?source=github_asst";
@@ -284,7 +341,7 @@ const NEXT = {
   claude:["Download the profile.","Open your <strong>Job Search</strong> Project → add the file to the Project's knowledge.","Start a chat in that Project and say: <em>“Read my job-search profile and connect what's missing.”</em>"],
   chatgpt:["Download the profile.","Open your <strong>Job Search</strong> Project → add the file to the Project's files.","Start a chat in that Project and say: <em>“Read my job-search profile and connect what's missing.”</em>"],
   codex:["Download the profile.","Save it to <code>~/.agents/job-search/job-search-profile.md</code> (or the folder you work in).","Run Codex and say: <em>“Read my job-search profile and connect what's missing.”</em>"],
-  gemini:["Download the profile and keep it somewhere handy (Drive is fine).","Start a Gemini chat, attach the file, and type <code>/</code> to pick <em>job-search-setup</em>.","Say: <em>“Read my job-search profile and connect what's missing.”</em> Attach the file again in each new job-search chat."],
+  gemini:["Download the profile and keep it somewhere handy (Drive is fine).","Start a Gemini chat, attach the file, and type <code>/</code> to pick the job-search skill.","Say: <em>“Read my job-search profile and connect what's missing.”</em> Attach the file again in each new job-search chat."],
   grok:["Download the profile.","Open your <strong>Job Search</strong> Project → add the file to the Project's files.","Start a chat in that Project and say: <em>“Read my job-search profile and connect what's missing.”</em>"],
   antigravity:["Download the profile.","Save it to <code>~/.agents/job-search/job-search-profile.md</code> (or the workspace you open).","Ask the agent: <em>“Read my job-search profile and connect what's missing.”</em>"],
   code:["Download the profile.","Save it to <code>~/.claude/job-search/job-search-profile.md</code>.","Run Claude Code and say: <em>“Read my job-search profile and connect what's missing.”</em>"],

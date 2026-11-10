@@ -1,0 +1,8 @@
+# OpenAI (ChatGPT / Codex) display metadata. Other hosts ignore this file.
+interface:
+  display_name: "Job Search Assistant"
+  short_description: "Eight job-search modules in one skill, from targeting to the offer"
+  default_prompt: "Set up my job search"
+  brand_color: "#C2410C"
+policy:
+  allow_implicit_invocation: true
