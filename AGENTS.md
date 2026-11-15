@@ -11,7 +11,8 @@ chat app (Claude, ChatGPT, Gemini, Grok): one top-level folder named after the s
 ## Layout
 - `modules/<module>/`: source of truth for each skill (`SKILL.md`, `references/`, `agents/openai.yaml`).
 - `shared/`: setup, personas, profile template, data schema and `hosts.md`. Copied into every module's
-  `references/_shared/` at build time. Never edit the copies.
+  `references/_shared/` at build time. Don't edit the copies; the build overwrites them. Edit
+  `shared/` instead.
 - `library/`: book notes, copied into `references/book-notes/` per module at build time.
 - `plugin/`: generated. One folder serves both hosts: `.claude-plugin/plugin.json` (Claude Code) and
   `plugin.json` (portable manifest, read by ChatGPT and Codex).
@@ -31,8 +32,8 @@ Writes `dist/*.zip` (one per module plus an all-in-one) and regenerates `plugin/
 - Keep skills host-neutral. Anything app-specific (menu paths, where files live, scheduling, voice)
   goes in `shared/hosts.md` only; modules point to it. Say "the assistant", not a product name.
 - Keep `SKILL.md` files short; put detail in `references/` so it loads only when needed.
-- Ground rules are product features: drafts only, never send; never guess email addresses; at most
-  3 outreach drafts per run.
+- The skills' ground rules are product features, so keep them when editing a skill: drafts only,
+  never send; never guess email addresses; at most 3 outreach drafts per run.
 - Keep module files plain text (`.md`, `.csv`, `.json`, `.py`, `.yaml`). The Gemini app rejects binary
   files such as `.docx` and `.xlsx`, and its scripts can't reach the internet, so no script may depend on
   a network call.
