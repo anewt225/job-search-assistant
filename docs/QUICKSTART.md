@@ -2,20 +2,24 @@
 
 These skills turn your AI assistant (Claude, ChatGPT, Gemini, Grok, Codex, Antigravity or any app that reads Agent Skills) into a job-search assistant. They're built on proven playbooks: *The 2-Hour Job Search*, *Never Search Alone*, *Reverse the Search* and *Linked*. Each module works on its own. Install one or all of them.
 
+This page is a reference copy. It no longer ships inside the zips: the site and [`shared/hosts.md`](../shared/hosts.md) are the source for install steps.
+
 ## 1. Install (2 minutes)
+
+Chat apps take one upload: `job-search-assistant.zip` holds every module in a single skill.
 
 **Claude desktop app or claude.ai** (Pro, Max, Team or Enterprise)
 1. Settings → **Capabilities** → make sure **Code execution and file creation** is on.
-2. Settings → **Capabilities → Skills** → **Upload skill** → choose the `.zip` file. Don't unzip it first.
+2. Settings → **Customize → Skills** → **Add** → **Upload a skill** → choose `job-search-assistant.zip`. Don't unzip it first.
 
 **ChatGPT** (workspaces with Skills turned on)
-- Upload the module from the Skills page, or install the plugin from the ChatGPT desktop app's plugin directory.
+- Upload `job-search-assistant.zip` from the Skills page, or install the plugin from the ChatGPT desktop app's plugin directory.
 
 **Gemini app** (personal Google account)
-- Settings → **Skills** → **Upload** → choose the `.zip` (web or Mac app). Use skills, not Gems: Gems are being replaced.
+- Settings → **Skills** → **Upload** → choose `job-search-assistant.zip` (web or Mac app). Use skills, not Gems: Gems are being replaced.
 
 **Grok**
-- **Skills** → upload the `.zip`.
+- **Skills** → upload `job-search-assistant.zip`.
 
 **Codex**
 - `codex plugin marketplace add anewt225/job-search-assistant`, or unzip into `~/.agents/skills/`.
@@ -41,13 +45,15 @@ Claude and Grok call these **Connectors**, ChatGPT and Gemini call them **Apps**
 Every module also works without them. It falls back to asking you to paste or upload things.
 
 ## 4. First run
-Start a chat and type something like:
+Type `/` to see the skills (in apps that list them), then say one of these:
 
 > Set up my job search.
 
-(Or skip setup and just ask for something. Each module asks only for what it needs.)
+> Tailor my resume for <posting link>.
 
-The assistant runs a short setup. For each part it offers **Quick**, which copies a proven setup; **Bring your own**, a short quiz about the tools you use; or **Skip**. It also asks you to pick an assistant persona: Coach, Strategist, Mentor, Peer, Accountability Partner or Champion. You can also take a 5-question quiz to choose one.
+> I have an interview today with <company>.
+
+Setup is optional. It is 5 short steps, about 5 minutes: where you are, how you want to work, your tools, about you, then a review and one first task. Every turn shows "Step N of 5" and asks one question with a suggested answer, and you can skip any of them. If you need help right now, such as an interview today, just say so: the assistant skips setup and helps first.
 
 ## 5. Things to try
 | Module | Say |

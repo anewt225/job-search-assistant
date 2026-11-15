@@ -50,3 +50,21 @@ TIARA plus consultative questions tailored to this team, ending with next steps 
 ## Logistics & reminders
 Link or location · who to ask for · comp stance for this stage · energy note
 ```
+
+## Urgent
+For an interview, phone screen or recruiter call within about 48 hours. The user needs a brief now, not
+a setup.
+
+1. **Ask once, in one message, for only this:** the company and role (a JD link or pasted text is best),
+   when it is and who with, and a resume (attach or paste). Say that any of it can be skipped, and start
+   with whatever arrives. Don't ask for a profile, a persona or any tool connection.
+2. **Research lightly.** Two searches at most: what the company does, and news from the last 6 months.
+   If there's no time or no search tool, say so and work from the JD.
+3. **Give a one-page brief in the same reply:** the 30-second version (why they're hiring, what they're
+   probably worried about, the 3 things to land) · a 60-second "tell me about yourself" · the 3 most
+   likely questions, each with a CAR outline built only from the resume (`[NEED STORY: …]` where there's
+   no evidence) · 3 questions to ask · logistics to check.
+4. **Offer one next step:** a 10-minute mock now (Practice mode, shortened), or stop here.
+5. **Leave the user's tools alone.** No tasks, calendar blocks or tracker records unless they ask.
+6. **Afterwards, offer setup once:** "Want to do the 5-minute setup so I remember this next time?" If
+   they decline, don't ask again in this conversation. After the interview, suggest a debrief.

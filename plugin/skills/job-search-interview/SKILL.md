@@ -6,6 +6,9 @@ description: Interview assistant for the job search, covering prep, mock practic
 # Job Search — Interviews
 
 ## Step 0: Load context
+**Interview today or tomorrow?** Don't run setup and don't ask for a profile. Go straight to
+`references/prep.md` §Urgent, then offer setup once afterwards.
+
 1. Read `job-search-profile.md` (search order: `references/_shared/setup.md` §0). If it's missing, run setup
    scoped to **interview**: identity, email, calendar, files (interview prep folder), tasks, meeting notes,
    data store (opportunities and meetings), source docs (resume), persona and rules. A user in a hurry can

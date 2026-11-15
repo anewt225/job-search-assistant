@@ -66,7 +66,8 @@ profile updates and tracker imports show a diff or counts first ([`setup.md`](sh
 
 **Easy to start, deep when you want it.** Respect the user's time: plain language, one question at a
 time, sensible defaults.
-*Proof:* Quick setup takes six questions; modules read your profile instead of asking again
+*Proof:* setup is five steps, one question per turn, each with a suggested answer, and a same-day
+interview skips it ([`setup.md`](shared/setup.md) §1 to §4); modules read your profile instead of asking again
 ([`setup.md`](shared/setup.md) §0); mock interviews ask one question at a time
 ([`practice.md`](modules/job-search-interview/references/practice.md)).
 

@@ -8,3 +8,5 @@ modules/*/references/book-notes/
 __pycache__/
 .venv/
 .claude/
+
+dist/
