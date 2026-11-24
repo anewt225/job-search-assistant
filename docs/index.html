@@ -210,8 +210,8 @@ footer{padding:32px 0 56px;color:var(--faint);font-size:.9rem;border-top:1px sol
 </section>
 
 <section id="wizard">
-  <h2><span class="stepnum">2</span> Set up</h2>
-  <p class="lede" style="font-size:1rem">About 3 minutes. Pick <span class="pill">Quick</span> to copy a proven tool stack in one click, or choose your own tools. Nothing leaves your browser. Prefer to talk it through? Skip this and tell your assistant "set up my job search".</p>
+  <h2><span class="stepnum">2</span> Set up <span class="pill">Optional</span></h2>
+  <p class="lede" style="font-size:1rem">You don't need this form to download or use anything above. It's for people who'd rather fill in a form than chat. About 3 minutes, and nothing leaves your browser. No email or calendar connection is needed. Prefer to talk it through? Skip this and tell your assistant "set up my job search".</p>
   <div class="wizard" id="wiz" aria-live="polite">
     <div class="progress"><div id="bar"></div></div>
     <div id="stage"></div>
@@ -243,7 +243,18 @@ footer{padding:32px 0 56px;color:var(--faint);font-size:.9rem;border-top:1px sol
   <details><summary>Which AI apps does it work in?</summary><p>Any app that reads Agent Skills, the open <code>SKILL.md</code> format: Claude, ChatGPT, Gemini, Grok, Codex, Claude Code and Antigravity, plus others such as GitHub Copilot and Cursor. The skills never assume which app they're in. App-specific steps live in one table (<a href="https://github.com/anewt225/job-search-assistant/blob/main/shared/hosts.md">hosts.md</a>).</p></details>
   <details><summary>What does it cost?</summary><p>The skills are free. They run on your existing AI plan (Claude Pro or higher; a ChatGPT workspace with Skills turned on; any Gemini or Grok account; or Codex). Connectors and big imports use more of your usage. The Notion template is the cheapest way to set up.</p></details>
   <details><summary>Will it send emails for me?</summary><p>No. It only drafts. It never sends messages and never guesses email addresses.</p></details>
-  <details><summary>Do I need any connectors?</summary><p>No. Every module falls back to paste or upload. Connectors just save you copy-pasting.</p></details>
+  <details><summary>Do I need to connect Gmail (or anything else)?</summary><p>No. Nothing has to be connected, and every module works with paste or upload. A connection only saves you copy-pasting:</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th scope="col">If you connect</th><th scope="col">It can</th><th scope="col">Without it</th></tr></thead>
+      <tbody>
+        <tr><td>Email</td><td>find recruiter threads and create drafts (it never sends)</td><td>paste the thread</td></tr>
+        <tr><td>Calendar</td><td>suggest prep blocks and reminders you approve first</td><td>it gives you times to add</td></tr>
+        <tr><td>Files</td><td>read and save resumes, briefs and notes</td><td>it gives you files to save</td></tr>
+        <tr><td>Tasks</td><td>add follow-ups you approve</td><td>it lists tasks in the chat</td></tr>
+        <tr><td>Tracker</td><td>remember companies, contacts and next steps</td><td>it keeps CSV files for you</td></tr>
+        <tr><td>Meeting notes</td><td>debrief from what was actually said</td><td>upload or paste your notes</td></tr>
+      </tbody>
+    </table></div></details>
   <details><summary>Where is my data?</summary><p>Only in your own AI account and your own tools. This page stores nothing on a server; your answers stay in your browser.</p></details>
 </section>
 
@@ -317,10 +328,9 @@ const steps = [
   {id:"me", type:"form", title:"About you", help:"Every module uses this. Leave blanks for anything you don't know yet; the self-discovery module can help.",
    fields:[["name","Name"],["positioning","One-line positioning (e.g. Strategy & Ops | Data | Hospitality Tech)"],["roles","Target roles, ranked (comma-separated)"],["industries","Target industries"],["notTargeting","Not targeting"],["location","Location / remote preference"]]},
   {id:"persona", type:"choice", title:"What kind of assistant do you want?", help:"You can change it any time, or ask your assistant for the 5-question persona quiz.", opts:Object.entries(PERSONAS)},
-  {id:"tools", type:"choice", title:"How do you want to connect your tools?", help:"Email, calendar, files, tasks, meeting notes and your tracker. You can change any of them later.", opts:[
-    ["quick","Quick: use the proven stack<small>Gmail · Google Calendar (\"Career\" calendar) · Google Drive · Notion tracker template · TickTick · Fireflies</small>"],
-    ["custom","Choose each tool<small>Six quick questions: Outlook, OneDrive, Sheets, Todoist, Granola and more</small>"],
-    ["none","No tools for now<small>Paste and upload as you go; your tracker starts as CSV files</small>"]]},
+  {id:"tools", type:"choice", title:"Do you want to name your tools now?", help:"Nothing has to be connected. Every module works with paste or upload, and you can add a tool any time.", opts:[
+    ["none","Not now (recommended to start)<small>Paste and upload as you go; your tracker starts as CSV files</small>"],
+    ["custom","Name the tools I already use<small>Six short questions, one per job: tracking, files, email, calendar, tasks, meeting notes. Skip any of them.</small>"]]},
   {id:"store", custom:true, type:"choice", title:"Where should your tracker live?", help:"Companies, contacts, opportunities, meetings and tasks.", opts:[["notion (duplicate the template)","Notion template (fastest and cheapest)"],["google sheets","Google Sheets (import the CSVs)"],["excel","Excel"],["airtable","Airtable"],["obsidian","Obsidian"],["csv folder","Plain CSV files in a folder"],["import existing","I already have a tracker, so import it"]]},
   {id:"files", custom:true, type:"choice", title:"Where do you keep job-search files?", opts:[[QUICK.files,"Google Drive with the standard folders"],["onedrive: Job Search/","OneDrive"],["dropbox: Job Search/","Dropbox"],["local: ~/Job Search/","A local folder (Codex, Claude Code, desktop apps)"],["ai project files","Only inside my AI project (Claude or ChatGPT)"]]},
   {id:"email", custom:true, type:"choice", title:"Email for outreach, recruiters and interviews?", opts:[["gmail","Gmail"],["outlook","Outlook"]]},
@@ -386,7 +396,8 @@ document.getElementById("next").onclick = () => go(1);
 document.getElementById("back").onclick = () => go(-1);
 
 function v(k, d="") { const x = ans[k]; return x === undefined || x === "" ? d : x; }
-function tool(k) { return ans.tools === "quick" ? QUICK[k] : ans.tools === "custom" ? v(k, "none") : NONE[k]; }
+// There is no preset stack (same as chat setup). An old saved "quick" answer falls back to no tools.
+function tool(k) { return ans.tools === "custom" ? v(k, "none") : NONE[k]; }
 function profile(){
   const today = new Date().toISOString().slice(0,10);
   const store = tool("store");
