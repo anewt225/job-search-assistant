@@ -20,7 +20,16 @@ SHARED = ROOT / "shared"
 LIBRARY = ROOT / "library"
 DIST = ROOT / "dist"
 PLUGIN_SKILLS = ROOT / "plugin" / "skills"
-QUICKSTART = ROOT / "docs" / "QUICKSTART.md"
+# The full install guide lives on the website (docs/QUICKSTART.md). Zips carry only this short note,
+# so a download never holds a second, competing set of install steps (BLD-8).
+START_HERE = """# You're installed
+
+1. Start a new chat (in your Job Search project, if you made one).
+2. Type: **Set up my job search**. Or just ask for what you need; each module asks only for what it must.
+3. Optional: turn on your email, calendar and tracker connectors so it can do more than draft.
+
+Full guide: https://anewt225.github.io/job-search-assistant/
+"""
 
 # Book notes each module ships with (paths relative to library/). Loaded lazily by the skills.
 BOOK_NOTES = {
@@ -72,8 +81,7 @@ def zip_dir(zf: zipfile.ZipFile, module: Path) -> None:
     for f in sorted(module.rglob("*")):
         if f.is_file():
             zf.write(f, Path(module.name) / f.relative_to(module))
-    if QUICKSTART.exists():
-        zf.write(QUICKSTART, Path(module.name) / "QUICKSTART.md")
+    zf.writestr(f"{module.name}/START-HERE.md", START_HERE)
 
 
 def main() -> None:
