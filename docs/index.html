@@ -40,7 +40,7 @@ section{padding:32px 0;border-top:1px solid var(--border)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:16px}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;display:flex;flex-direction:column;gap:8px}
 .card p{margin:0;color:var(--muted);font-size:.95rem}
-.card .try{font-family:var(--mono);font-size:.82rem;background:var(--surface-2);padding:6px 8px;border-radius:8px;color:var(--text)}
+.card .try{overflow-wrap:anywhere;font-family:var(--mono);font-size:.82rem;background:var(--surface-2);padding:6px 8px;border-radius:8px;color:var(--text)}
 .card .btn{align-self:flex-start;margin-top:auto;font-size:.9rem}
 .steps{counter-reset:s;list-style:none;padding:0;margin:16px 0 0;display:grid;gap:12px}
 .steps li{counter-increment:s;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px 14px 56px;position:relative}
@@ -253,17 +253,17 @@ footer{padding:32px 0 56px;color:var(--faint);font-size:.9rem;border-top:1px sol
 <script>
 const REL = "https://github.com/anewt225/job-search-assistant/releases/latest/download/";
 const MODULES = [
-  ["job-search-setup","Setup & hub","Onboarding, persona, tracker import, and \"where do I start?\"","Set up my job search"],
-  ["job-search-discovery","Self-discovery","A playful quiz leading to strengths, must-haves, target roles, a two-pager and a CMF statement.","Help me figure out what roles fit me"],
-  ["job-search-linkedin","LinkedIn","A 100-point score, a 7-advisor panel, rewrites in your voice and an exportable to-do list.","Score my LinkedIn for Product Ops Manager"],
-  ["job-search-resume","Resume & cover letter","Score against a JD, then tailor with GLORY and see before/after deltas.","Tailor my resume for <posting URL>"],
-  ["job-search-networking","Networking & events","6-Point cold emails, warm reconnects, referral asks, follow-ups and event briefs.","Draft outreach to Priya at Lumen, no connection"],
-  ["job-search-interview","Interviews","Prep briefs, a 25-minute voice mock interview, and debriefs with thank-yous and tasks.","Prep me for my interview with Northwind"],
-  ["job-search-negotiation","Negotiation","Comp research, offer comparison, counter scripts and a recruiter role-play.","I got an offer. Help me negotiate"],
-  ["job-search-rhythm","Daily & weekly rhythm","A 2-minute stand-up, plus a weekly retro followed by week-ahead time blocks.","Run my weekly review"],
+  ["job-search-setup","Setup & hub","Saves your goals, preferences and tools in one small profile every module reads, then suggests where to start.","Set up my job search"],
+  ["job-search-discovery","Self-discovery","A short, playful quiz that turns into your strengths, must-haves and a few roles worth targeting, plus a two-page summary you can share.","Help me figure out what roles fit me"],
+  ["job-search-linkedin","LinkedIn","Scores your profile for a target role, explains every score, and gives a ranked to-do list with rewrites in your voice.","Score my LinkedIn for Product Ops Manager"],
+  ["job-search-resume","Resume & cover letter","Checks your resume against a job posting, tailors it and the cover letter, and shows what changed and how the score moved.","Tailor my resume for <posting URL>"],
+  ["job-search-networking","Networking & events","Drafts cold emails, reconnect notes, referral asks and follow-ups, plus briefs for events. You send them yourself.","Draft outreach to Priya at Lumen, no connection"],
+  ["job-search-interview","Interviews","A prep brief before, a mock interview you can do by voice, and a debrief with a thank-you draft and next steps after.","Prep me for my interview with Northwind"],
+  ["job-search-negotiation","Negotiation","Researches pay for the role, compares offers side by side, and writes counteroffer scripts you can rehearse with a mock recruiter.","I got an offer. Help me negotiate"],
+  ["job-search-rhythm","Daily & weekly rhythm","A 2-minute daily check-in on what matters today, and a weekly review that plans time for next week.","Run my weekly review"],
 ];
 document.getElementById("moduleGrid").innerHTML = MODULES.map(([id,t,d,tr]) =>
-  `<div class="card"><h3>${t}</h3><p>${d}</p><div class="try">“${tr.replace(/</g,"&lt;")}”</div><a class="btn" href="${REL}${id}.zip">Download .zip</a></div>`).join("");
+  `<div class="card"><h3>${t}</h3><p>${d}</p><div class="try">“${tr.replace(/</g,"&lt;")}”</div><a class="btn" href="${REL}${id}.zip" aria-label="Download the ${esc(t)} module (.zip)">Download .zip</a></div>`).join("");
 
 // ---------- host picker (install tabs) ----------
 const HOSTS = [["claude","Claude","claude"],["chatgpt","ChatGPT","chatgpt"],["gemini","Gemini","gemini"],["grok","Grok","grok"],["codex","Codex","codex"],["code","Claude Code","claude code"],["antigravity","Antigravity","antigravity"],["other","Other","other"]];
