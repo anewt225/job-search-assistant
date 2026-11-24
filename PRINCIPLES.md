@@ -32,6 +32,12 @@ improve, not for others to copy and resell. *Not yet reflected in the license; s
 daily stand-up reads email subjects and senders, not bodies, about 10 items per source
 ([`rhythm`](modules/job-search-rhythm/SKILL.md)).
 
+**Value before data.** Every request for data or a connection says what it enables, gives an example,
+and offers a way to go without it. You decide with the trade-off in front of you, not after.
+*Proof:* setup asks about the job, not the app, and each job's row says what it enables and what
+happens with no tool ([`setup.md`](shared/setup.md) §5); the welcome turn says nothing has to be
+connected before any question is asked ([`setup.md`](shared/setup.md) §1).
+
 **No training, no selling.** The project collects nothing, so it has nothing to train on or sell.
 The AI app you run it in has its own terms, and the assistant tells you when they matter (for example,
 Gemini's *Keep Activity* requirement in [`hosts.md`](shared/hosts.md)).
