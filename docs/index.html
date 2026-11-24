@@ -93,9 +93,14 @@ footer{padding:32px 0 56px;color:var(--faint);font-size:.9rem;border-top:1px sol
 .qcount{color:var(--faint);font-size:.85rem;margin:0 0 6px}
 .next-steps{margin:0 0 14px;padding-left:1.2em;color:var(--muted)}
 .next-steps li{margin:4px 0}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.skip{position:absolute;left:16px;top:-48px;background:var(--surface);color:var(--text);padding:8px 12px;border-radius:8px;border:1px solid var(--border);z-index:10}
+.skip:focus{top:16px}
 </style>
 </head>
 <body>
+<a class="skip" href="#install">Skip to install</a>
+<p id="sr-status" class="sr-only" role="status" aria-live="polite"></p>
 <div class="topbar"><a class="toplink" href="https://github.com/anewt225/job-search-assistant">GitHub</a><button class="btn" id="themeBtn" aria-label="Toggle colour theme">◐</button></div>
 <div class="wrap">
 <header>
@@ -213,7 +218,7 @@ footer{padding:32px 0 56px;color:var(--faint);font-size:.9rem;border-top:1px sol
   <h2><span class="stepnum">2</span> Set up</h2>
   <p class="lede" style="font-size:1rem">About 3 minutes. Pick <span class="pill">Quick</span> to copy a proven tool stack in one click, or choose your own tools. Nothing leaves your browser. Prefer to talk it through? Skip this and tell your assistant "set up my job search".</p>
   <div class="wizard" id="wiz" aria-live="polite">
-    <div class="progress"><div id="bar"></div></div>
+    <div class="progress" aria-hidden="true"><div id="bar"></div></div>
     <div id="stage"></div>
     <div class="nav">
       <button class="btn" id="back">← Back</button>
@@ -270,14 +275,27 @@ const HOSTS = [["claude","Claude","claude"],["chatgpt","ChatGPT","chatgpt"],["ge
 const ans = JSON.parse(localStorageSafe("get") || "{}");
 function localStorageSafe(op, v){ try{ return op==="get" ? localStorage.getItem("jsa-wizard") : localStorage.setItem("jsa-wizard", v);}catch(e){ return null; } }
 function save(){ localStorageSafe("set", JSON.stringify(ans)); }
+// Screen-reader status line (WCAG 4.1.3): copy confirmations are announced, not only shown.
+function announce(msg){ const s = document.getElementById("sr-status"); s.textContent = ""; setTimeout(() => { s.textContent = msg; }, 50); }
 function esc(s){ return String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
 const hostTabs = document.getElementById("hostTabs");
-hostTabs.innerHTML = HOSTS.map(([id,l]) => `<button class="tab" role="tab" data-tab="${id}">${l}</button>`).join("");
+hostTabs.innerHTML = HOSTS.map(([id,l]) => `<button class="tab" role="tab" id="tab-${id}" aria-controls="panel-${id}" data-tab="${id}">${l}</button>`).join("");
+document.querySelectorAll("#install .panel").forEach(p => { p.id = "panel-" + p.dataset.panel; p.setAttribute("role","tabpanel"); p.setAttribute("aria-labelledby","tab-" + p.dataset.panel); });
 function setHost(id){
   ans.host = id; save();
-  hostTabs.querySelectorAll(".tab").forEach(x => x.setAttribute("aria-selected", x.dataset.tab === id));
+  hostTabs.querySelectorAll(".tab").forEach(x => { const on = x.dataset.tab === id; x.setAttribute("aria-selected", on); x.tabIndex = on ? 0 : -1; });
   document.querySelectorAll("#install .panel").forEach(p => p.hidden = p.dataset.panel !== id);
 }
+// ARIA tabs pattern: arrow keys, Home and End move between apps.
+hostTabs.addEventListener("keydown", e => {
+  const tabs = [...hostTabs.querySelectorAll(".tab")], k = tabs.indexOf(document.activeElement);
+  if (k < 0) return;
+  const to = {ArrowRight:k+1, ArrowDown:k+1, ArrowLeft:k-1, ArrowUp:k-1, Home:0, End:tabs.length-1}[e.key];
+  if (to === undefined) return;
+  e.preventDefault();
+  const t = tabs[(to + tabs.length) % tabs.length];
+  t.focus(); t.click();
+});
 hostTabs.querySelectorAll(".tab").forEach(b => b.addEventListener("click", () => { setHost(b.dataset.tab); if (steps[i].type === "out") render(); }));
 
 // theme toggle
@@ -292,6 +310,7 @@ document.querySelectorAll("[data-copy]").forEach(b => b.addEventListener("click"
   const el = document.getElementById(b.dataset.copy), label = b.textContent;
   try { await navigator.clipboard.writeText(el.textContent.trim()); b.textContent = "Copied ✓"; }
   catch { const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = "Selected: press Ctrl/Cmd+C"; }
+  announce(b.textContent === "Copied ✓" ? "Copied to clipboard" : "Text selected. Press Control or Command plus C to copy.");
   setTimeout(() => { b.textContent = label; }, 2500);
 }));
 
@@ -377,7 +396,7 @@ function render(){
   if (s.type === "out") {
     document.getElementById("hostSel").onchange = e => { setHost(e.target.value); render(); };
     document.getElementById("dl").onclick = () => { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([profile()],{type:"text/markdown"})); a.download = "job-search-profile.md"; a.click(); };
-    document.getElementById("cp").onclick = async e => { try { await navigator.clipboard.writeText(profile()); e.target.textContent = "Copied ✓"; } catch { e.target.textContent = "Open the preview and copy"; } };
+    document.getElementById("cp").onclick = async e => { try { await navigator.clipboard.writeText(profile()); e.target.textContent = "Copied ✓"; announce("Profile copied to clipboard"); } catch { e.target.textContent = "Open the preview and copy"; announce("Copy failed. Open the preview and copy the text."); } };
     document.getElementById("restart").onclick = () => { const host = ans.host; for (const k in ans) delete ans[k]; ans.host = host; save(); i = 0; render(); };
   }
   const first = st.querySelector("input,.opt"); if (first && k) first.focus({preventScroll:true});
